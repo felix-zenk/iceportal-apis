@@ -1,5 +1,5 @@
 # Import iceportal_apis
-import iceportal_api as ipas
+import iceportal_apis as ipa
 
 # Information related to the next station
 def example_next_station():
