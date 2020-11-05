@@ -11,6 +11,14 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
     $ python -m pip install iceportal_apis
     ```
 * Or directly download this module from: [Direct download (PyPI)](https://pypi.org/project/iceportal-apis/#files)
+#
+### Updates
+To update simply upgrade the module through pip.
+
+The newest version is: 1.0.1
+```shell
+ $ python -m pip install --upgrade iceportal_apis
+```
 
 #
 ### License
@@ -37,7 +45,7 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
         10. get_station_eva_numbers()\
         11. get_station_name(evaNr)\
         12. get_next_station_name()\
-        13. get_station_names()\
+        13. get_station_names()
         14. get_actual_arrival_time(name, evaNr)\
         15. get_next_arrival_time()\
         16. get_actual_time_until_arrival(name, evaNr)\
@@ -49,7 +57,7 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
         22. get_next_track()\
         23. get_delay()\
         24. get_delay_reasons()\
-        25. get_delay_reason_last_station()\
+        25. get_delay_reasons_last_station()\
         26. get_delay_reason()\
         27. get_delay_status()\
         28. get_is_delayed()
@@ -369,7 +377,7 @@ They can be used to provide the result of an API call to each function. Otherwis
 
 >Calls: get_trip
 
-#### 1.2.25 get_delay_reason_last_station(trip_call=None)
+#### 1.2.25 get_delay_reasons_last_station(trip_call=None)
 >Description: Gets the reasons for the current delay
 
 >Parameters: -
