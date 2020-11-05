@@ -388,7 +388,8 @@ They can be used to provide the result of an API call to each function. Otherwis
 >Calls: get_delay_reasons, get_last_station_eva_number
 
 #### 1.2.26 get_delay_reason(trip_call=None)
->Description: Alias for get_delay_reason_last_station
+DEPRECATED
+>Description: Alias for get_delay_reasons_last_station
 
 >Parameters: -
 
