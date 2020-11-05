@@ -57,9 +57,8 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
         23. get_delay()\
         24. get_delay_reasons()\
         25. get_delay_reasons_last_station()\
-        26. get_delay_reason()\
-        27. get_delay_status()\
-        28. get_is_delayed()
+        26. get_delay_status()\
+        27. get_is_delayed()
 2. Processing data\
     1\. cut_timestamp(seconds)\
     2. convert_time_to_string(timedelta_obj, locale)
@@ -132,7 +131,7 @@ They can be used to provide the result of an API call to each function. Otherwis
 
 >Optional parameters: status_call (dict)
 
->Returns: String ("ICE"/"IC")
+>Returns: String
 
 >Calls: get_status
 
@@ -143,7 +142,7 @@ They can be used to provide the result of an API call to each function. Otherwis
 
 >Optional parameters: status_call (dict)
 
->Returns: String ("FIRST"/"SECOND")
+>Returns: String
 
 >Calls: get_status
 
@@ -387,19 +386,7 @@ They can be used to provide the result of an API call to each function. Otherwis
 
 >Calls: get_delay_reasons, get_last_station_eva_number
 
-#### 1.2.26 get_delay_reason(trip_call=None)
-WILL BE DEPRECATED
->Description: Alias for get_delay_reasons_last_station
-
->Parameters: -
-
->Optional parameters: trip_call (dict)
-
->Returns: list
-
->Calls: get_delay_reason_last_station
-
-#### 1.2.27 get_delay_status(trip_call=None)
+#### 1.2.26 get_delay_status(trip_call=None)
 >Description: Returns whether the train is delayed or not
 
 >Parameters: -
@@ -410,7 +397,7 @@ WILL BE DEPRECATED
 
 >Calls: get_delay
 
-#### 1.2.28 get_is_delayed(trip_call=None)
+#### 1.2.27 get_is_delayed(trip_call=None)
 >Description: Alias for get_delay_status
 
 >Parameters: -
@@ -445,7 +432,7 @@ WILL BE DEPRECATED
 
 #
 ### Example usage
-> This code is also available in the file [`example.py`](https://github.com/felix-zenk/python-iceportal_apis/blob/main/samples/example.py).
+> This code is also available in the file [`example.py`](https://github.com/felix-zenk/iceportal-apis/blob/main/samples/example.py).
 ```python
 # Import iceportal_apis
 import iceportal_apis as ipa
@@ -479,7 +466,7 @@ if __name__ == "__main__":
 <br/>
 
 This code makes an API call for every function of `iceportal_apis`. However the module supports handing an API call over to a function as an optional parameter. The function will then work with that call, so that you only need to call the API once.
-> This code is also available in the file [`example2.py`](https://github.com/felix-zenk/python-iceportal_apis/blob/main/samples/example2.py).
+> This code is also available in the file [`example2.py`](https://github.com/felix-zenk/iceportal-apis/blob/main/samples/example2.py).
 ```python
 # same as example.py but calls the api only once
 
@@ -623,7 +610,7 @@ These are other APIs I discovered but didn't investigate in:
 3.3. [https://iceportal.de/api1/rs/configs/cities](https://iceportal.de/api1/rs/configs/cities)
 #
 ### Development
-> If you would like to develop your own interface you can use sample data from [samples/sample_data_supplier.py](https://github.com/felix-zenk/python-iceportal_apis/blob/main/samples/sample_data_supplier.py)
+> If you would like to develop your own interface you can use sample data from [samples/sample_data_supplier.py](https://github.com/felix-zenk/iceportal-apis/blob/main/samples/sample_data_supplier.py)
 Just put the file in your working directory and import it into your project as you would with a normal module.
 ```python
 from sample_data_supplier import get_sample_data_status, get_sample_data_trip
