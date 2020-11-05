@@ -6,19 +6,18 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
 
 #
 ### Installation
-* Available at PyPI
+* Available on PyPI
     ```shell
     $ python -m pip install iceportal_apis
     ```
 * Or directly download this module from: [Direct download (PyPI)](https://pypi.org/project/iceportal-apis/#files)
 #
 ### Updates
-To update simply upgrade the module through pip.
-
-The newest version is: 1.0.1
-```shell
- $ python -m pip install --upgrade iceportal_apis
-```
+* To update simply upgrade the module through pip.
+    ```shell
+     $ python -m pip install --upgrade iceportal_apis
+    ```
+* The newest version is: 1.0.1
 
 #
 ### License
