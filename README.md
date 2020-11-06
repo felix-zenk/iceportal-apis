@@ -17,7 +17,7 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
     ```shell
      $ python -m pip install --upgrade iceportal_apis
     ```
-* The newest version is: 1.0.1
+* The newest version is: 1.0.3
 
 #
 ### License
