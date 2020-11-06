@@ -20,7 +20,7 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
     ```shell
      $ python -m pip install --upgrade iceportal_apis
     ```
-* The newest version is: 1.0.4
+* The newest version is: 1.0.4 (06.11.2020)
 
 #
 
