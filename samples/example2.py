@@ -13,7 +13,7 @@ def example_next_station(call):
     if ipa.get_delay_status(trip_call=call):
         print(f'This train is {ipa.get_delay(trip_call=call)} min delayed')
         if ipa.get_delay_reasons(trip_call=call) != None:
-            print(f'Reason: "{ipa.get_delay_reason_last_station(trip_call=call)}"')
+            print(f'Reason: "{ipa.get_delay_reasons_last_station(trip_call=call)}"')
     
 # Information related to the trains speed
 def example_speed(call):
