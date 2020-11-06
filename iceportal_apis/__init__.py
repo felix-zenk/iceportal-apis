@@ -48,15 +48,16 @@ class NoneDataException(Exception):
         super().__init__(message)
 
 class WrongApiException(Exception):
-    """Exception raised when a requested element returns None
+    """Exception raised when a *_call parameter references the wrong api
     """
     def __init__(self, api=None, message='This function requires a call from an other api'):
         self.api=api
-        super().__init__(message)
+        self.message=message
+        super().__init__(self.message)
 
     def __str__(self):
         if self.api != None:
-            return f'This function requires data from the "{self.api} api"'
+            return f'This function requires data from the "{self.api} API"'
         else:
             return self.message
 
@@ -122,9 +123,6 @@ def cut_timestamp(seconds):
 
 def request_json(url):
     """Requests data from 'url' and parses it as a dictionary
-    
-    Attributes:
-        url -- the url to fetch data from
     """
     try:
         data = requests.get(url)
@@ -195,6 +193,16 @@ def get_position(status_call=None):
         return (get_latitude(status_call), get_longitude(status_call))
     return (get_latitude(), get_longitude())
 
+def get_train_id(status_call=None):
+    if status_call != None:
+        return status_call['tzn']
+    return get_status()['tzn']
+
+def get_trip_id(trip_call=None):
+    if trip_call != None:
+        return trip_call['trip']['vzn']
+    return get_trip()['trip']['vzn']
+
 def get_station_eva_number(station_name, trip_call=None):
     """Gets the evaNr of a specific station.
     """
@@ -205,7 +213,7 @@ def get_station_eva_number(station_name, trip_call=None):
     for stop in trip['trip']['stops']:
         if stop['station']['name'] == station_name:
             return stop['station']['evaNr']
-    raise NotAvailableException
+    raise NotAvailableException()
 
 def get_next_station_eva_number(trip_call=None):
     """Gets the evaNr of the next stop.
@@ -223,11 +231,16 @@ def get_last_station_eva_number(trip_call=None):
         trip = trip_call
     else:
         trip = get_trip()
-    next_eva_nr = get_next_station_eva_number(trip)
-    for stop in trip['trip']['stops']:
-        if stop['station']['evaNr'] == next_eva_nr:
-            return trip['trip']['stops'][trip['trip']['stops'].index(stop)-1]['station']['evaNr']
-    raise NotAvailableException
+    return trip['trip']['stopInfo']['actualLast']
+
+def get_final_station_eva_number(trip_call=None):
+    """Gets the evaNr of the destination of the train
+    """
+    if trip_call != None:
+        trip = trip_call
+    else:
+        trip = get_trip()
+    return trip['trip']['stopInfo']['finalStationEvaNr']
     
 def get_station_eva_numbers(trip_call=None):
     """Gets the evaNr of all stations for this trip.
@@ -268,6 +281,28 @@ def get_next_station_name(trip_call=None):
             return stop['station']['name']
     raise NotAvailableException()
 
+def get_last_station_name(trip_call=None):
+    """Gets the name of the last station
+    """
+    if trip_call != None:
+        trip = trip_call
+    else:
+        trip = get_trip()
+    next_eva_nr = get_next_station_eva_number(trip)
+    for stop in trip['trip']['stops']:
+        if stop['station']['evaNr'] == next_eva_nr:
+            return trip['trip']['stops'][trip['trip']['stops'].index(stop)-1]['station']['name']
+    raise NotAvailableException()
+    
+def get_final_station_name(trip_call=None):
+    """Gets the destination of the train
+    """
+    if trip_call != None:
+        trip = trip_call
+    else:
+        trip = get_trip()
+    return trip['trip']['stopInfo']['finalStationName']
+
 def get_station_names(trip_call=None):
     """Gets the names of all stations for this trip.
     """
@@ -283,7 +318,7 @@ def get_station_names(trip_call=None):
     else:
         raise NotAvailableException()
 
-def get_actual_arrival_time(station_name=None, evaNr=None, trip_call=None):
+def get_arrival_time(station_name=None, evaNr=None, trip_call=None):
     """Gets the arrival time at a specific station.
     """
     if trip_call != None:
@@ -307,9 +342,9 @@ def get_actual_arrival_time(station_name=None, evaNr=None, trip_call=None):
 def get_next_arrival_time(trip_call=None):
     """Gets the arrival time at the next station
     """
-    return get_actual_arrival_time(get_next_station_eva_number(trip_call=trip_call), trip_call=trip_call)
+    return get_arrival_time(evaNr=get_next_station_eva_number(trip_call=trip_call), trip_call=trip_call)
 
-def get_actual_time_until_arrival(station_name=None, evaNr=None, trip_call=None):
+def get_time_until_arrival(station_name=None, evaNr=None, trip_call=None):
     """Gets the time until the arrival at a specific station.
        Returns the difference as a timedelta object.
     """
@@ -317,28 +352,63 @@ def get_actual_time_until_arrival(station_name=None, evaNr=None, trip_call=None)
         trip = trip_call
     else:
         trip = get_trip()
-    return get_actual_arrival_time(station_name=station_name, evaNr=evaNr, trip_call=trip)-datetime.now()
+    return get_arrival_time(station_name=station_name, evaNr=evaNr, trip_call=trip)-datetime.now()
 
-def get_time_until_arrival(station_name=None, evaNr=None, trip_call=None):
-    """Alias for get_actual_time_until_arrival()
-    """
-    return get_actual_time_until_arrival(station_name=station_name, evaNr=evaNr, trip_call=trip_call)
-
-def get_actual_time_until_next_arrival(trip_call=None):
+def get_time_until_next_arrival(trip_call=None):
     """Gets the time until the next stop in minutes
     """
     if trip_call != None:
         trip = trip_call
     else:
         trip = get_trip()
-    return get_actual_time_until_arrival(evaNr=get_next_station_eva_number(), trip_call=trip)
+    return get_time_until_arrival(evaNr=get_next_station_eva_number(), trip_call=trip)
 
-def get_time_until_next_arrival(trip_call=None):
-    """Alias for get_actual_time_until_next_arrival
+def get_departure_time(station_name=None, evaNr=None, trip_call=None):
+    """Gets the departure time at a specific station.
     """
-    return get_actual_time_until_next_arrival(trip_call=trip_call)
+    if trip_call != None:
+        trip = trip_call
+    else:
+        trip = get_trip()
+    if station_name != None:
+        key = 'name'
+        value = station_name
+    elif evaNr != None:
+        key = 'evaNr'
+        value = evaNr
+    else:
+        raise TypeError('Missing at least one argument: station_name, evaNr')
+    
+    for stop in trip['trip']['stops']:
+        if stop['station'][key] == value:
+            return datetime.fromtimestamp(cut_timestamp(stop['timetable']['actualDepartureTime']))
+    raise NotAvailableException()
 
-def get_actual_track(station_name=None, evaNr=None, trip_call=None):
+def get_next_departure_time(trip_call=None):
+    """Gets the departure time at the next station
+    """
+    return get_departure_time(evaNr=get_next_station_eva_number(trip_call=trip_call), trip_call=trip_call)
+
+def get_time_until_departure(station_name=None, evaNr=None, trip_call=None):
+    """Gets the time until the departure at a specific station.
+       Returns the difference as a timedelta object.
+    """
+    if trip_call != None:
+        trip = trip_call
+    else:
+        trip = get_trip()
+    return get_departure_time(station_name=station_name, evaNr=evaNr, trip_call=trip)-datetime.now()
+
+def get_time_until_next_departure(trip_call=None):
+    """Gets the time until the departure from the next station in minutes
+    """
+    if trip_call != None:
+        trip = trip_call
+    else:
+        trip = get_trip()
+    return get_time_until_departure(evaNr=get_next_station_eva_number(), trip_call=trip)
+
+def get_track(station_name=None, evaNr=None, trip_call=None):
     """Gets the track for a specific station
     """
     if trip_call != None:
@@ -359,15 +429,10 @@ def get_actual_track(station_name=None, evaNr=None, trip_call=None):
             return int(stop['track']['actual'])
     raise NotAvailableException()
 
-def get_track(station_name=None, evaNr=None, trip_call=None):
-    """Alias for get_actual_track()
-    """
-    return get_actual_track(station_name=station_name, evaNr=evaNr, trip_call=trip_call)
-
 def get_next_track(trip_call=None):
     """Gets the track of the next stop
     """
-    return get_actual_track(evaNr=get_next_station_eva_number(), trip_call=trip_call)
+    return get_track(evaNr=get_next_station_eva_number(), trip_call=trip_call)
 
 def get_delay(trip_call=None):
     """Gets the delay in minutes.
@@ -404,15 +469,35 @@ def get_delay_reasons(trip_call=None):
         return reasons
     raise NoneDataException() # Train is on time
 
+def get_delay_reasons_for_station(station_name=None, evaNr=None, trip_call=None):
+    """Gets the delay reasons for a specific station
+    """
+    if trip_call != None:
+        trip = trip_call
+    else:
+        trip = get_trip()
+    if station_name != None:
+        key = 'name'
+        value = station_name
+    elif evaNr != None:
+        key = 'evaNr'
+        value = evaNr
+    else:
+        raise TypeError('Missing at least one argument: station_name, evaNr')
+    
+    for stop in trip['trip']['stops']:
+        if stop['station'][key] == value:
+            this_reasons = []
+            if stop['delayReasons'] != None:
+                for reason in stop['delayReasons']:
+                    this_reasons.append(reason['text'])
+            return this_reasons
+    raise NotAvailableException()
+
 def get_delay_reasons_last_station(trip_call=None):
     """Gets the reasons for the current delay
     """
-    return get_delay_reasons()[get_last_station_eva_number()]
-
-def get_delay_reason(trip_call=None):
-    """Alias for get_delay_reason_last_station()
-    """
-    return get_delay_reason_last_station(trip_call=trip_call)
+    return get_delay_reasons_for_station(evaNr=get_last_station_eva_number())
 
 def get_delay_status(trip_call=None):
     """Gets the status of whether the train is delayed or not.
