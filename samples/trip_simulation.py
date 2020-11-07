@@ -1,0 +1,2 @@
+print('Coming soon...')
+input()
