@@ -127,7 +127,7 @@ try:
             if ipa.get_delay_reasons_last_station() != []:
                 print(f'Grund: {ipa.get_delay_reasons_last_station()[0]}')
         print()
-        print(f'Aktuelle Geschwindigkeit: {ipa.get_speed()}km/h')
+        print(f'Aktuelle Geschwindigkeit: {ipa.get_speed()}km/h (zufällig)')
         if time_now > (ipa.get_arrival_time(evaNr=eva_numbers[-1]) + timedelta(seconds=180)):
             finished = True
             print('Der Zug ist am Ziel angekommen')
