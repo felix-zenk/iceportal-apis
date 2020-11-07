@@ -45,7 +45,7 @@ def clear():
 def getMultiplier():
     try:
         val = float(input('Multiplikator für die Geschwindigkeit: '))
-        if val >= 1.0:
+        if val >= 1.0 and val <= 500.0:
             return val
         raise Exception()
     except:
