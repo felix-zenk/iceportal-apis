@@ -20,7 +20,7 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
     ```shell
      $ python -m pip install --upgrade iceportal_apis
     ```
-* The newest version is: 1.0.4 (06.11.2020)
+* The newest version is: 1.0.5 (08.11.2020)
 
 #
 
@@ -67,10 +67,11 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
         28. get_next_track()\
         29. get_delay()\
         30. get_delay_reasons()\
-		31. get_delay_reasons_for_station(station_name, evaNr)\
-        32. get_delay_reasons_last_station()\
-        33. get_delay_status()\
-        34. get_is_delayed()
+		31. get_all_delay_reasons()\
+		32. get_delay_reasons_for_station(station_name, evaNr)\
+        33. get_delay_reasons_last_station()\
+        34. get_delay_status()\
+        35. get_is_delayed()
 2. Processing data\
     1\. cut_timestamp(seconds)\
     2. convert_time_to_string(timedelta_obj, locale)
@@ -455,7 +456,7 @@ They can be used to provide the result of an API call to each function. Otherwis
 >Calls: get_trip, get_next_station_eva_number
 
 #### 1.2.30 get_delay_reasons(trip_call=None)
->Description: Gets all reasons for delays
+>Description: Gets the delay reasons for all stations
 
 >Parameters: -
 
@@ -465,7 +466,18 @@ They can be used to provide the result of an API call to each function. Otherwis
 
 >Calls: get_trip
 
-#### 1.2.31 get_delay_reasons_for_station(trip_call=None)
+#### 1.2.31 get_delay_reasons(trip_call=None)
+>Description: Gets the current delay reasons
+
+>Parameters: -
+
+>Optional parameters: trip_call (dict)
+
+>Returns: dict
+
+>Calls: get_trip, get_delay_reasons_last_station, get_delay_reasons_for_station, get_next_station_eva_number
+
+#### 1.2.32 get_delay_reasons_for_station(trip_call=None)
 >Description: Gets the delay reasons for a specific station
 
 >Parameters: -
@@ -474,9 +486,9 @@ They can be used to provide the result of an API call to each function. Otherwis
 
 >Returns: list
 
->Calls: get_delay_reasons, get_last_station_eva_number
+>Calls: get_all_delay_reasons, get_last_station_eva_number
 
-#### 1.2.32 get_delay_reasons_last_station(trip_call=None)
+#### 1.2.33 get_delay_reasons_last_station(trip_call=None)
 >Description: Gets the reasons for the current delay
 
 >Parameters: -
@@ -485,9 +497,9 @@ They can be used to provide the result of an API call to each function. Otherwis
 
 >Returns: list
 
->Calls: get_delay_reasons, get_last_station_eva_number
+>Calls: get_all_delay_reasons, get_last_station_eva_number
 
-#### 1.2.33 get_delay_status(trip_call=None)
+#### 1.2.34 get_delay_status(trip_call=None)
 >Description: Returns whether the train is delayed or not
 
 >Parameters: -
@@ -498,7 +510,7 @@ They can be used to provide the result of an API call to each function. Otherwis
 
 >Calls: get_delay
 
-#### 1.2.34 get_is_delayed(trip_call=None)
+#### 1.2.35 get_is_delayed(trip_call=None)
 >Description: Alias for get_delay_status
 
 >Parameters: -
