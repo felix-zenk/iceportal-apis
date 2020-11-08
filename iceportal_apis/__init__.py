@@ -361,7 +361,7 @@ def get_time_until_next_arrival(trip_call=None):
         trip = trip_call
     else:
         trip = get_trip()
-    return get_time_until_arrival(evaNr=get_next_station_eva_number(), trip_call=trip)
+    return get_time_until_arrival(evaNr=get_next_station_eva_number(trip_call=trip_call), trip_call=trip)
 
 def get_departure_time(station_name=None, evaNr=None, trip_call=None):
     """Gets the departure time at a specific station.
@@ -406,7 +406,7 @@ def get_time_until_next_departure(trip_call=None):
         trip = trip_call
     else:
         trip = get_trip()
-    return get_time_until_departure(evaNr=get_next_station_eva_number(), trip_call=trip)
+    return get_time_until_departure(evaNr=get_next_station_eva_number(trip_call=trip_call), trip_call=trip)
 
 def get_track(station_name=None, evaNr=None, trip_call=None):
     """Gets the track for a specific station
@@ -432,7 +432,7 @@ def get_track(station_name=None, evaNr=None, trip_call=None):
 def get_next_track(trip_call=None):
     """Gets the track of the next stop
     """
-    return get_track(evaNr=get_next_station_eva_number(), trip_call=trip_call)
+    return get_track(evaNr=get_next_station_eva_number(trip_call=trip_call), trip_call=trip_call)
 
 def get_delay(trip_call=None):
     """Gets the delay in minutes.
@@ -441,7 +441,7 @@ def get_delay(trip_call=None):
         trip = trip_call
     else:
         trip = get_trip()
-    evaNr = get_next_station_eva_number(trip)
+    evaNr = get_next_station_eva_number(trip_call=trip_call)
     for stop in trip['trip']['stops']:
         if stop['station']['evaNr'] == evaNr:
             if stop['timetable']['arrivalDelay'] == '':
@@ -478,8 +478,8 @@ def get_delay_reasons(trip_call=None):
         trip = get_trip()
     reasons = []
     
-    reasons.append(get_delay_reasons_last_station())
-    reasons.append(get_delay_reasons_for_station(evaNr=get_next_station_eva_number()))
+    reasons.append(get_delay_reasons_last_station(trip_call=trip_call))
+    reasons.append(get_delay_reasons_for_station(evaNr=get_next_station_eva_number(trip_call=trip_call), trip_call=trip_call), trip_call=trip_call)
     
     if len(reasons) != 0:
         return list(dict.fromkeys(reasons))
@@ -513,7 +513,7 @@ def get_delay_reasons_for_station(station_name=None, evaNr=None, trip_call=None)
 def get_delay_reasons_last_station(trip_call=None):
     """Gets the reasons for the current delay
     """
-    return get_delay_reasons_for_station(evaNr=get_last_station_eva_number())
+    return get_delay_reasons_for_station(evaNr=get_last_station_eva_number(trip_call=trip_call))
 
 def get_delay_status(trip_call=None):
     """Gets the status of whether the train is delayed or not.
