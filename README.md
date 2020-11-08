@@ -74,7 +74,7 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
         35. get_is_delayed()
 2. Processing data\
     1\. cut_timestamp(seconds)\
-    2. convert_time_to_string(timedelta_obj, locale)
+    2. convert_time_to_string(timedelta_obj, locale, no_seconds)
 3. Exceptions\
     1\. NetworkException(Exception)\
     2. NotOnTrainException(Exception)\
@@ -534,12 +534,12 @@ They can be used to provide the result of an API call to each function. Otherwis
 
 >Calls: -
 
-#### 2.2 convert_time_to_string(timedelta_obj, locale)
+#### 2.2 convert_time_to_string(timedelta_obj, locale, no_seconds=False)
 >Description: Converts a timedelta object into a string representation, supported locales are "", "en", "de", "fr", "nl". "en" is the standard locale
 
 >Parameters: timedelta_obj (datetime.timedelta), locale (String)
 
->Optional parameters: -
+>Optional parameters: no_seconds (bool)
 
 >Returns: String
 
