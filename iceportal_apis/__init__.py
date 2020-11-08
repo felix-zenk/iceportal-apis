@@ -450,7 +450,7 @@ def get_delay(trip_call=None):
                 return int(stop['timetable']['arrivalDelay'])
     raise NotAvailableException()
 
-def get_delay_reasons(trip_call=None):
+def get_all_delay_reasons(trip_call=None):
     """Gets all reasons for delays
     """
     if trip_call != None:
@@ -467,6 +467,22 @@ def get_delay_reasons(trip_call=None):
                 reasons[stop['station']['evaNr']] = this_reasons
     if len(reasons) != 0:
         return reasons
+    raise NoneDataException() # Train is on time
+
+def get_delay_reasons(trip_call=None):
+    """Gets the current delay reasons
+    """
+    if trip_call != None:
+        trip = trip_call
+    else:
+        trip = get_trip()
+    reasons = []
+    
+    reasons.append(get_delay_reasons_last_station())
+    reasons.append(get_delay_reasons_for_station(evaNr=get_next_station_eva_number()))
+    
+    if len(reasons) != 0:
+        return list(dict.fromkeys(reasons))
     raise NoneDataException() # Train is on time
 
 def get_delay_reasons_for_station(station_name=None, evaNr=None, trip_call=None):
