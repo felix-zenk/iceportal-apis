@@ -20,7 +20,7 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
     ```shell
      $ python -m pip install --upgrade iceportal_apis
     ```
-* The newest version is: 1.0.5 (08.11.2020)
+* The newest version is: 1.0.6 (02.12.2020)
 
 #
 
@@ -33,55 +33,58 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
 1. Getting data
     1. Getting raw data\
         1\. get_status()\
-        2. get_trip()\
-        3. get_all()\
-        4. request_json(url)
+        2\. get_trip()\
+        3\. get_all()\
+        4\. request_json(url)
     2. Getting processed data\
         1\. get_speed()\
-        2. get_train_type()\
-        3. get_wagon_class()\
-        4. get_latitude()\
-        5. get_longitude()\
-        6. get_position()\
-		7. get_train_id()\
-		8. get_trip_id()\
-        9. get_station_eva_number(station_name)\
-        10. get_next_station_eva_number()\
-        11. get_last_station_eva_number()\
-		12. get_final_station_eva_number()\
-        13. get_station_eva_numbers()\
-        14. get_station_name(evaNr)\
-        15. get_next_station_name()\
-		16. get_last_station_name()\
-		17. get_final_station_name()\
-        18. get_station_names()\
-        19. get_arrival_time(station_name, evaNr)\
-		20. get_next_arrival_time()\
-		21. get_time_until_arrival(station_name, evaNr)\
-        22. get_time_until_next_arrival()\
-		23. get_departure_time(station_name, evaNr)\
-		24. get_next_departure_time()\
-		25. get_time_until_departure(station_name, evaNr)\
-        26. get_time_until_next_departure()\
-        27. get_track(station_name, evaNr)\
-        28. get_next_track()\
-        29. get_delay()\
-        30. get_delay_reasons()\
-		31. get_all_delay_reasons()\
-		32. get_delay_reasons_for_station(station_name, evaNr)\
-        33. get_delay_reasons_last_station()\
-        34. get_delay_status()\
-        35. get_is_delayed()
+        2\. get_train_type()\
+        3\. get_wagon_class()\
+        4\. get_latitude()\
+        5\. get_longitude()\
+        6\. get_position()\
+	7\. get_train_id()\
+	8\. get_trip_id()\
+        9\. get_station_eva_number(station_name)\
+        10\. get_next_station_eva_number()\
+        11\. get_last_station_eva_number()\
+	12\. get_final_station_eva_number()\
+        13\. get_station_eva_numbers()\
+        14\. get_station_name(evaNr)\
+        15\. get_next_station_name()\
+	16\. get_last_station_name()\
+	17\. get_final_station_name()\
+        18\. get_station_names()\
+        19\. get_arrival_time(station_name, evaNr)\
+	20\. get_next_arrival_time()\
+	21\. get_time_until_arrival(station_name, evaNr)\
+        22\. get_time_until_next_arrival()\
+	23\. get_departure_time(station_name, evaNr)\
+	24\. get_next_departure_time()\
+	25\. get_time_until_departure(station_name, evaNr)\
+        26\. get_time_until_next_departure()\
+        27\. get_track(station_name, evaNr)\
+        28\. get_next_track()\
+        29\. get_delay()\
+        30\. get_delay_reasons()\
+	31\. get_all_delay_reasons()\
+	32\. get_delay_reasons_for_station(station_name, evaNr)\
+        33\. get_delay_reasons_last_station()\
+        34\. get_delay_status()\
+        35\. get_is_delayed()\
+	36\. get_station_position()\
+	37\. get_station_distance()
 2. Processing data\
-    1\. cut_timestamp(seconds)\
-    2. convert_time_to_string(timedelta_obj, locale, no_seconds)
+    1\. cut_timestamp()\
+    2\. convert_time_to_string()\
+    3\. calc_distance()
 3. Exceptions\
     1\. NetworkException(Exception)\
-    2. NotOnTrainException(Exception)\
-    3. NotAvailableException(Exception)\
-    4. NotInFutureException(Exception)\
-    5. NoneDataException(Exception)\
-    6. WrongApiException(Exception)
+    2\. NotOnTrainException(Exception)\
+    3\. NotAvailableException(Exception)\
+    4\. NotInFutureException(Exception)\
+    5\. NoneDataException(Exception)\
+    6\. WrongApiException(Exception)
 
 ### 1. Getting data
 
@@ -521,6 +524,28 @@ They can be used to provide the result of an API call to each function. Otherwis
 
 >Calls: get_delay_status
 
+#### 1.2.36 get_station_position(station_name=None, evaNr=None, trip_call=None)
+>Description: Gets the position of a specific station
+
+>Parameters: (one needed)
+
+>Optional parameters: trip_call (dict)
+
+>Returns: (float, float)
+
+>Calls: -
+
+#### 1.2.37 get_station_distance(station_name=None, evaNr=None, status_call=None, trip_call=None)
+>Description: Calculates the distance to a specific station and returns it in meters
+
+>Parameters: (one needed)
+
+>Optional parameters: status_call (dict), trip_call (dict)
+
+>Returns: float
+
+>Calls: calc_distance, get_position, get_station_position
+
 ### 2. Processing data
 
 #### 2.1 cut_timestamp(seconds)
@@ -544,6 +569,18 @@ They can be used to provide the result of an API call to each function. Otherwis
 >Returns: String
 
 >Calls: datetime.now
+
+#### 2.3 calc_distance(position_start, position_end)
+>Description: 
+
+>Parameters: position_start ((float, float)), position_end ((float, float))
+
+>Optional parameters: -
+
+>Returns: float
+
+>Calls: -
+
 
 ### 3. Exceptions
 
