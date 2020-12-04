@@ -75,9 +75,9 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
 	36\. get_station_position()\
 	37\. get_station_distance()
 2. Processing data\
-    1\. cut_timestamp()\
-    2\. convert_time_to_string()\
-    3\. calc_distance()
+    1\. cut_timestamp(timestamp_int)\
+    2\. convert_time_to_string(timedelta_obj)\
+    3\. calc_distance((start_lat, start_lon), (end_lat, end_lon))
 3. Exceptions\
     1\. NetworkException(Exception)\
     2\. NotOnTrainException(Exception)\
