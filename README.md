@@ -2,7 +2,7 @@
 
 ### Description
 This module interacts with the onboard APIs of the Deutsche Bahn ICE trains.\
-It can do various things from reading the trains velocity to telling you the distance to and the delay at the next station.\(Explore all functions below at **`Documentation`**)\
+It can do various things from reading the trains velocity to telling you the distance to and the delay at the next station.\ (Explore all functions below at **`Documentation`**)\
 This is an inofficial project and not acknowledged nor supported by `Deutsche Bahn AG`.
 > Note, that this module will only work while you are on a train and connected to its WiFi-Hotspot.
 
