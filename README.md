@@ -1,7 +1,8 @@
 # iceportal_apis
 
 ### Description
-This module functions as an endpoint for interacting with the onboard APIs of the Deutsche Bahn ICE and IC trains.
+This module interacts with the onboard APIs of the Deutsche Bahn ICE trains.\
+It can do various things from reading the trains velocity to telling you the distance to and the delay at the next station.\(Explore all functions below at **`Documentation`**)\
 This is an inofficial project and not acknowledged nor supported by `Deutsche Bahn AG`.
 > Note, that this module will only work while you are on a train and connected to its WiFi-Hotspot.
 
@@ -12,25 +13,37 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
     ```shell
     $ python -m pip install iceportal_apis
     ```
-* Or directly download this module from: [Direct download (PyPI)](https://pypi.org/project/iceportal-apis/#files)
+> Or view and download the source files on: [PyPI (web)](https://pypi.org/project/iceportal-apis/#files)
+
 #
 
 ### Updates
-* To update simply upgrade the module through pip.
+* To update simply *--upgrade* the module through pip.
     ```shell
      $ python -m pip install --upgrade iceportal_apis
     ```
-* The newest version is: 1.0.6 (02.12.2020)
+> or see **`Automatic updates`**-section below
+>
+> The latest version is: 1.0.7 (07.12.2020)
+
+#
+
+### Changelog
+
+**New in version 1.0.7:**\
+\+ Added Changelog\
+\+ Added autoupdate() function\
+\#  Restructured README
 
 #
 
 ### License
-* This sofware is distributed under the MIT License, please see `LICENSE` for detailed information.
+> **This sofware is distributed under the MIT License, please see `LICENSE` for detailed information.**
 
 #
 
 ### Documentation
-1. Getting data
+1. **Getting data**
     1. Getting raw data\
         1\. get_status()\
         2\. get_trip()\
@@ -74,17 +87,17 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
         35\. get_is_delayed()\
 	36\. get_station_position()\
 	37\. get_station_distance()
-2. Processing data\
+2. **Processing data**\
     1\. cut_timestamp(timestamp_int)\
     2\. convert_time_to_string(timedelta_obj)\
     3\. calc_distance((start_lat, start_lon), (end_lat, end_lon))
-3. Exceptions\
+3. **Exceptions**\
     1\. NetworkException(Exception)\
     2\. NotOnTrainException(Exception)\
     3\. NotAvailableException(Exception)\
     4\. NotInFutureException(Exception)\
     5\. NoneDataException(Exception)\
-    6\. WrongApiException(Exception)
+    6\. *WrongApiException(Exception)*
 
 ### 1. Getting data
 
@@ -95,46 +108,46 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
 
 #### 1.1.1 get_status()
 >Description: Function for retrieving data from the status API.
-
+>
 >Parameters: -
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: dict
-
+>
 >Calls: request_json
 
 #### 1.1.2 get_trip()
 >Description: Function for retrieving data from the trip API
-
+>
 >Parameters: -
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: dict
-
+>
 >Calls: request_json
 
 #### 1.1.3 get_all()
 >Description: Gets data from both APIs
-
+>
 >Parameters: -
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: dict, dict
-
+>
 >Calls: request_json
 
 #### 1.1.4 request_json(url)
 >Description: Requests data from url and converts it into a python dict
-
+>
 >Parameters: url (the url to recieve data from)
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: dict
-
+>
 >Calls: requests.get
 
 ### 1.2 Getting processed data
@@ -144,499 +157,505 @@ They can be used to provide the result of an API call to each function. Otherwis
 
 ##### 1.2.1 get_speed(status_call=None)
 >Description: Gets the current speed of the train
-
+>
 >Parameters: -
-
+>
 >Optional parameters: status_call (dict)
-
+>
 >Returns: int
-
+>
 >Calls: get_status
 
 #### 1.2.2 get_train_type(status_call=None)
 >Description: Gets the type of train
-
+>
 >Parameters: -
-
+>
 >Optional parameters: status_call (dict)
-
+>
 >Returns: String
-
+>
 >Calls: get_status
 
 #### 1.2.3 get_wagon_class(status_call=None)
 >Description: Gets the wagon class (can be inacurate for wagons next to another class)
-
+>
 >Parameters: -
-
+>
 >Optional parameters: status_call (dict)
-
+>
 >Returns: String
-
+>
 >Calls: get_status
 
 #### 1.2.4 get_latitude(status_call=None)
 >Description: Gets the latitude of the trains position
-
+>
 >Parameters: -
-
+>
 >Optional parameters: status_call (dict)
-
+>
 >Returns: float
-
+>
 >Calls: get_status
 
 #### 1.2.5 get_longitude(status_call=None)
 >Description: Gets the longitude of the trains position
-
+>
 >Parameters: -
-
+>
 >Optional parameters: status_call (dict)
-
+>
 >Returns: float
-
+>
 >Calls: get_status
 
 #### 1.2.6 get_position(status_call=None)
 >Description: Gets the trains position
-
+>
 >Parameters: -
-
+>
 >Optional parameters: status_call (dict)
-
+>
 >Returns: (float, float)
-
+>
 >Calls: get_latitude, get_longitude
 
 #### 1.2.7 get_train_id(status_call=None)
 >Description: Converts a stations name into its evaNr (unsafe: multiple stations in one city)
-
+>
 >Parameters: name (String)
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: String
-
+>
 >Calls: get_trip
 
 #### 1.2.8 get_trip_id(trip_call=None)
 >Description: Converts a stations name into its evaNr (unsafe: multiple stations in one city)
-
+>
 >Parameters: name (String)
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: String
-
+>
 >Calls: get_trip
 
 #### 1.2.9 get_station_eva_number(name, trip_call=None)
 >Description: Converts a stations name into its evaNr (unsafe: multiple stations in one city)
-
+>
 >Parameters: name (String)
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: String
-
+>
 >Calls: get_trip
 
 #### 1.2.10 get_next_station_eva_number(trip_call=None)
 >Description: Gets the evaNr of the next station
-
+>
 >Parameters: -
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: String
-
+>
 >Calls: get_trip
 
 #### 1.2.11 get_last_station_eva_number(trip_call=None)
 >Description: Gets the evaNr of the last station
-
+>
 >Parameters: -
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: String
-
+>
 >Calls: get_trip
 
 #### 1.2.12 get_final_station_eva_number(trip_call=None)
 >Description: Gets the evaNr of the final station
-
+>
 >Parameters: -
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: String
-
+>
 >Calls: get_trip
 
 #### 1.2.13 get_station_eva_numbers(trip_call=None)
 >Description: Gets all evaNrs for this trip
-
+>
 >Parameters: -
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: list
-
+>
 >Calls: get_trip
 
 #### 1.2.14 get_station_name(evaNr, trip_call=None)
 >Description: Converts a stations evaNr into its name (safe)
-
+>
 >Parameters: evaNr (String)
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: String
-
+>
 >Calls: get_trip
 
 #### 1.2.15 get_next_station_name(trip_call=None)
 >Description: Gets the name of the next station
-
+>
 >Parameters: -
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: String
-
+>
 >Calls: get_trip
 
 #### 1.2.16 get_last_station_name(trip_call=None)
 >Description: Gets the name of the last station
-
+>
 >Parameters: -
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: String
-
+>
 >Calls: get_trip, get_next_station_eva_number
 
 #### 1.2.17 get_final_station_name(trip_call=None)
 >Description: Gets the name of the final station
-
+>
 >Parameters: -
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: String
-
+>
 >Calls: get_trip
 
 #### 1.2.18 get_station_names(trip_call=None)
 >Description: Gets all station names for this trip
-
+>
 >Parameters: -
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: list
-
+>
 >Calls: get_trip
 
 #### 1.2.19 get_arrival_time(name=None, evaNr=None, trip_call=None)
 >Description: Gets the time of arrival for a specific station
-
+>
 >Parameters: (one needed)
-
+>
 >Optional parameters: name (String), evaNr (String), trip_call (dict)
-
+>
 >Returns: datetime.datetime
-
+>
 >Calls: get_trip, datetime.fromtimestamp, cut_timestamp
 
 #### 1.2.20 get_next_arrival_time(trip_call=None)
 >Description: Gets the time of arrival for the next station 
-
+>
 >Parameters: -
-
+>
 >Returns: datetime.datetime
-
+>
 >Calls: get_arrival_time, get_next_station_eva_number
 
 #### 1.2.21 get_time_until_arrival(name=None, evaNr=None, trip_call=None)
 >Description: Gets the time until the train arrives at a specific station
-
+>
 >Parameters: (one needed)
-
+>
 >Optional parameters: name (String), evaNr (String), trip_call (dict)
-
+>
 >Returns: datetime.timedelta
-
+>
 >Calls: get_arrival_time, datetime.now
 
 #### 1.2.22 get_time_until_next_arrival(trip_call=None)
 >Description: Gets the time until the next station in minutes
-
+>
 >Parameters: -
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: datetime.timedelta
-
+>
 >Calls: get_time_until_arrival, get_next_station_eva_number
 
 #### 1.2.23 get_departure_time(name=None, evaNr=None, trip_call=None)
 >Description: Gets the time of departure for a specific station
-
+>
 >Parameters: (one needed)
-
+>
 >Optional parameters: name (String), evaNr (String), trip_call (dict)
-
+>
 >Returns: datetime.datetime
-
+>
 >Calls: get_trip, datetime.fromtimestamp, cut_timestamp
 
 #### 1.2.24 get_next_departue_time(trip_call=None)
 >Description: Gets the time of departure for the next station 
-
+>
 >Parameters: -
-
+>
 >Returns: datetime.datetime
-
+>
 >Calls: get_departure_time, get_next_station_eva_number
 
 #### 1.2.25 get_time_until_departure(name=None, evaNr=None, trip_call=None)
 >Description: Gets the time until the train departs at a specific station
-
+>
 >Parameters: (one needed)
-
+>
 >Optional parameters: name (String), evaNr (String), trip_call (dict)
-
+>
 >Returns: datetime.timedelta
-
+>
 >Calls: get_departure_time, datetime.now
 
 #### 1.2.26 get_time_until_next_departure(trip_call=None)
 >Description: Gets the time until departure from the next station in minutes
-
+>
 >Parameters: -
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: datetime.timedelta
-
+>
 >Calls: get_time_until_departure, get_next_station_eva_number
-
 
 #### 1.2.27 get_track(station_name=None, evaNr=None, trip_call=None)
 >Description: Gets the track on which the train will arrvive for a specific station
-
+>
 >Parameters: (one needed)
-
+>
 >Optional parameters: station_name (String), evaNr (String), trip_call (dict)
-
+>
 >Returns: int
-
+>
 >Calls: get_trip
 
 #### 1.2.28 get_next_track(trip_call=None)
 >Description: Gets the track on which the train will arrive in the next station
-
+>
 >Parameters: -
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: int
-
+>
 >Calls: get_track, get_next_station_eva_number
 
 #### 1.2.29 get_delay(trip_call=None)
 >Description: Gets the delay in minutes
-
+>
 >Parameters: -
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: int
-
+>
 >Calls: get_trip, get_next_station_eva_number
 
 #### 1.2.30 get_delay_reasons(trip_call=None)
 >Description: Gets the delay reasons for all stations
-
+>
 >Parameters: -
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: dict
-
+>
 >Calls: get_trip
 
 #### 1.2.31 get_delay_reasons(trip_call=None)
 >Description: Gets the current delay reasons
-
+>
 >Parameters: -
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: dict
-
+>
 >Calls: get_trip, get_delay_reasons_last_station, get_delay_reasons_for_station, get_next_station_eva_number
 
 #### 1.2.32 get_delay_reasons_for_station(trip_call=None)
 >Description: Gets the delay reasons for a specific station
-
+>
 >Parameters: -
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: list
-
+>
 >Calls: get_all_delay_reasons, get_last_station_eva_number
 
 #### 1.2.33 get_delay_reasons_last_station(trip_call=None)
 >Description: Gets the reasons for the current delay
-
+>
 >Parameters: -
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: list
-
->Calls: get_all_delay_reasons, get_last_station_eva_number
+>
+>Calls: get_trip, get_all_delay_reasons, get_last_station_eva_number
 
 #### 1.2.34 get_delay_status(trip_call=None)
 >Description: Returns whether the train is delayed or not
-
+>
 >Parameters: -
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: bool
-
->Calls: get_delay
+>
+>Calls: get_trip, get_delay
 
 #### 1.2.35 get_is_delayed(trip_call=None)
 >Description: Alias for get_delay_status
-
+>
 >Parameters: -
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: bool
-
->Calls: get_delay_status
+>
+>Calls: get_trip, get_delay_status
 
 #### 1.2.36 get_station_position(station_name=None, evaNr=None, trip_call=None)
 >Description: Gets the position of a specific station
-
+>
 >Parameters: (one needed)
-
+>
 >Optional parameters: trip_call (dict)
-
+>
 >Returns: (float, float)
-
->Calls: -
+>
+>Calls: get_trip
 
 #### 1.2.37 get_station_distance(station_name=None, evaNr=None, status_call=None, trip_call=None)
 >Description: Calculates the distance to a specific station and returns it in meters
-
+>
 >Parameters: (one needed)
-
->Optional parameters: status_call (dict), trip_call (dict)
-
->Returns: float
-
->Calls: calc_distance, get_position, get_station_position
+>
+>Optional parameters: trip_call (dict)
+>
+>Returns: int
+>
+>Calls: get_trip
 
 ### 2. Processing data
 
 #### 2.1 cut_timestamp(seconds)
 >Description: The APIs return a timestamp that is not in the right format for datetime functions. This function cuts the timestamp into the right format
-
+>
 >Parameters: seconds (int)
-
+>
 >Optional parameters: -
-
+>
 >Returns: int
-
+>
 >Calls: -
 
 #### 2.2 convert_time_to_string(timedelta_obj, locale, no_seconds=False)
 >Description: Converts a timedelta object into a string representation, supported locales are "", "en", "de", "fr", "nl". "en" is the standard locale
-
+>
 >Parameters: timedelta_obj (datetime.timedelta), locale (String)
-
+>
 >Optional parameters: no_seconds (bool)
-
+>
 >Returns: String
-
+>
 >Calls: datetime.now
 
 #### 2.3 calc_distance(position_start, position_end)
 >Description: 
-
+>
 >Parameters: position_start ((float, float)), position_end ((float, float))
-
+>
 >Optional parameters: -
-
+>
 >Returns: float
-
+>
 >Calls: -
-
 
 ### 3. Exceptions
 
 #### 1. NetworkException(Exception)
 >Description: Exception raised when a request fails to fetch data from the API
-
+>
 >Parameters: -
-
+>
 >Optional parameters: url (String), message (String)
-
+>
 >Raises: Exception
-
+>
 #### 2. NotOnTrainException(Exception)
 >Description: Exception raised when the request returns a website and no json data -> not on the trains network
-
+>
 >Parameters: -
-
+>
 >Optional parameters: message (String)
-
+>
 >Raises: Exception
 
 #### 3. NotAvailableException(Exception)
 >Description: Exception raised when specific content is not available through the API. Example: The train is not delayed -> get_delay_reasons() fails.
-
+>
 >Parameters: -
-
+>
 >Optional parameters: message (String)
-
+>
 >Raises: Exception
 
 #### 4. NotInFutureException(Exception)
 >Description: Exception raised when a timedelta object is negative but only a positive value is allowed.
-
+>
 >Parameters: -
-
+>
 >Optional parameters: message (String)
-
+>
 >Raises: Exception
 
 #### 5. NoneDataException(Exception)
 >Description: Exception raised when a requested element returns None.
-
+>
 >Parameters: -
-
+>
 >Optional parameters: message (String)
-
+>
 >Raises: Exception
 
 #### 6. WrongApiException(Exception)
->Description: Exception raised when a *_call parameter references the wrong API. Not fully implemented yet!
-
+>Description: Exception raised when a status/trip_call parameter references the wrong API. Not fully implemented yet!
+>
 >Parameters: -
-
+>
 >Optional parameters: api (String), message (String)
-
+>
 >Raises: Exception
+
+#
+
+### Automatic updates
+>The `autoupdate` function is only available starting from version 1.0.7 and adds about 10 seconds of delay
+>To use auto updates just implement `iceportal_apis.autoupdate()` at some point in your code.
+>If an update is available changes will be applied at the next program start. 
+>If you want to use this function it is recommended to call `iceportal_apis.autoupdate()` at the end of your program.
 
 #
 
@@ -770,18 +789,18 @@ Sample Response (**shortened**, only one element in '*stops*' list instead of al
                     }
                 },
                 "timetable": {
-                    "scheduledArrivalTime": 1604159640000,    //  EPOCH + x seconds
-                    "actualArrivalTime": 1604159640000,       //
+                    "scheduledArrivalTime": 1604159640000,    //  EPOCH + x seconds+ms
+                    "actualArrivalTime": 1604159640000,       //  EPOCH + x seconds+ms
                     "showActualArrivalTime": true,            //  -
                     "arrivalDelay": "",                       //  delay in minutes
-                    "scheduledDepartureTime": 1604159760000,  //
-                    "actualDepartureTime": 1604159760000,     //
+                    "scheduledDepartureTime": 1604159760000,  //  EPOCH + x seconds+ms
+                    "actualDepartureTime": 1604159760000,     //  EPOCH + x seconds+ms
                     "showActualDepartureTime": true,          //  -
                     "departureDelay": ""                      //  delay in minutes
                 },
                 "track": {
-                    "scheduled": "4",  //  The scheduled platform in this train station
-                    "actual": "4"      //  The actual platform in this train station
+                    "scheduled": "4",  //  The scheduled platform for this train station
+                    "actual": "4"      //  The actual platform for this train station
                 },
                 "info": {
                     "status": 0,                 //  ?
@@ -814,24 +833,29 @@ Sample Response (**shortened**, only one element in '*stops*' list instead of al
 #### 3. Other APIs
 These are other APIs I discovered but didn't investigate in:
 
-3.1. [https://iceportal.de/api1/rs/pois/map](https://iceportal.de/api1/rs/pois/map)
+3.1. [https://iceportal.de/api1/rs/pois/map/{lat_s}/{lon_s}/{lat_e}/{lon_e}](https://iceportal.de/api1/rs/pois/map/0.000/0.000/1.000/1.000)
 
 3.2. [https://iceportal.de/api1/rs/configs](https://iceportal.de/api1/rs/configs)
 
 3.3. [https://iceportal.de/api1/rs/configs/cities](https://iceportal.de/api1/rs/configs/cities)
+
 #
 
 ### Development
 > If you would like to develop your own interface you can use sample data from [samples/sample_data_supplier.py](https://github.com/felix-zenk/iceportal-apis/blob/main/samples/sample_data_supplier.py)
 Just put the file in your working directory and import it into your project as you would with a normal module.
 ```python
-from sample_data_supplier import get_sample_data_status, get_sample_data_trip
+from sample_data_supplier import get_sample_data_status, get_sample_data_trip, refresh_data
 import iceportal_apis as ipa
 ```
 > You have to override the get_status() and get_trip() functions
 ```python
 ipa.get_status = lambda: get_sample_data_status()
 ipa.get_trip = lambda: get_sample_data_trip()
+```
+> Update the recorded timestamps to the current time
+```
+refresh_data()
 ```
 > After that you can develop and test as if you were on a train.
 
@@ -847,4 +871,4 @@ print(ipa.get_speed())
 ```
 
 ### Further simulating
-> If you want to simulate a complete trip the file [`trip_simulation.py`](https://github.com/felix-zenk/iceportal-apis/blob/main/samples/trip_simulation.py) serves as a solid base for that.
+> If you want to simulate a complete trip the [samples](https://github.com/felix-zenk/iceportal-apis/blob/main/samples) serve as a solid base.
