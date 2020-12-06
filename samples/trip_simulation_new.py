@@ -1,3 +1,7 @@
+#
+# REQURIES ICEPORTAL-APIS v1.0.7 or newer
+#
+
 # Import
 import iceportal_apis as ipa
 from datetime import datetime, timedelta
