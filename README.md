@@ -48,6 +48,10 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
 #
 
 ### Documentation
+> ~~This documentation can also be found on [ReadTheDocs.io](https://iceportal-apis.readthedocs.io/en/latest/)~~
+>
+> ReadTheDocs status: [![Documentation Status](https://readthedocs.org/projects/iceportal-apis/badge/?version=latest)](https://iceportal-apis.readthedocs.io/en/latest/?badge=latest)
+
 1. **Getting data**
     1. Getting raw data\
         1\. get_status()\
