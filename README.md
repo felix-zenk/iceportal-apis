@@ -1,5 +1,9 @@
 # iceportal_apis
 
+[![PyPI version](https://img.shields.io/badge/pypi-v1.0.7-yellow)](https://pypi.org/project/iceportal-apis)
+[![Supported Python versions](https://img.shields.io/badge/Python-3-blue)](https://pypi.org/project/iceportal-apis)
+[![GitHub](https://img.shields.io/badge/license-MIT-green)](LICENSE.txt)
+
 ### Description
 This module interacts with the onboard APIs of the Deutsche Bahn ICE trains.\
 It can do various things from reading the trains velocity to telling you the distance to and the delay at the next station.\
