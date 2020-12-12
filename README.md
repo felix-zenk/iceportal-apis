@@ -1,13 +1,13 @@
 # iceportal_apis
 
-[![PyPI version](https://img.shields.io/badge/pypi-v1.0.7-yellow)](https://pypi.org/project/iceportal-apis)
+[![PyPI version](https://img.shields.io/badge/pypi-v1.0.8-yellow)](https://pypi.org/project/iceportal-apis)
 [![Supported Python versions](https://img.shields.io/badge/Python-3-blue)](https://pypi.org/project/iceportal-apis)
 [![GitHub](https://img.shields.io/badge/license-MIT-green)](LICENSE.txt)
 
 ### Description
 This module interacts with the onboard APIs of the Deutsche Bahn ICE trains.\
 It can do various things from reading the trains velocity to telling you the distance to and the delay at the next station.\
-(Explore all functions below at **`Documentation`**)\
+(Explore all functions below at <a href="#documentation">**`Documentation`**</a>)\
 This is an inofficial project and not acknowledged nor supported by `Deutsche Bahn AG`.
 > Note, that this module will only work while you are on a train and connected to its WiFi-Hotspot.
 
@@ -18,7 +18,8 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
     ```shell
     $ python -m pip install iceportal_apis
     ```
-> Or view and download the source files on: [PyPI (web)](https://pypi.org/project/iceportal-apis/#files)
+> Or download the source files from: [PyPI (web)](https://pypi.org/project/iceportal-apis/#files), 
+[GitHub](https://github.com/felix-zenk/iceportal-apis)
 
 #
 
@@ -29,7 +30,7 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
     ```
 > or see **`Automatic updates`**-section below
 >
-> The latest version is: 1.0.7 (07.12.2020)
+> The latest version is: 1.0.8 (12.12.2020)
 
 #
 
@@ -42,13 +43,24 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
 
 #
 
+**New in version 1.0.8:**\
+\# Fixed a flaw with the distance functions\
+\# Fixed inconsistent use of status and trip call function parameters\
+\# Minor code optimizations\
+\# Changed autoupdate() function to support python versions under 3.6\
+\+ Added the calc_distance(pos1, pos2) function which calculates the distance between two positions '(lat, lon)' in meters\
+\+ Fully implemented the get_station_distance(..) function\
+\+ Added the get_next_station_distance() function
+
+#
+
 ### License
 > **This sofware is distributed under the MIT License, please see `LICENSE` for detailed information.**
 
 #
 
-### Documentation
-> ~~This documentation can also be found on [ReadTheDocs.io](https://iceportal-apis.readthedocs.io/en/latest/)~~
+### <div id="documentation">Documentation</div>
+> ~~This documentation can also be found on [![Documentation link](https://img.shields.io/badge/ReadTheDocs.io-blue)](https://iceportal-apis.readthedocs.io/en/latest/)~~
 >
 > ReadTheDocs status: [![Documentation Status](https://readthedocs.org/projects/iceportal-apis/badge/?version=latest)](https://iceportal-apis.readthedocs.io/en/latest/?badge=latest)
 
@@ -592,7 +604,9 @@ They can be used to provide the result of an API call to each function. Otherwis
 >Calls: datetime.now
 
 #### 2.3 calc_distance(position_start, position_end)
->Description: 
+>Description: Calculates the distance between two position tuples.\
+>   The function accepts a position like pos = (lat, lon)\
+>   A valid call would be something like 'calc_distance((0.0, 0.0), (1.0, 1.0))'
 >
 >Parameters: position_start ((float, float)), position_end ((float, float))
 >
@@ -775,9 +789,9 @@ Sample Response (**shortened**, only one element in '*stops*' list instead of al
         "tripDate": "2020-10-31",       //  date
         "trainType": "ICE",             //  ICE / IC
         "vzn": "881",                   //  trip ID (ICE 881)
-        "actualPosition": 159781,       //  distance from the start
-        "distanceFromLastStop": 41632,  //  distance from the last stop
-        "totalDistance": 708799,        //  total distance
+        "actualPosition": 159781,       //  distance of the last station from the start
+        "distanceFromLastStop": 41632,  //  distance of the train from the last stop
+        "totalDistance": 708799,        //  total distance on this trip
         "stopInfo": {
             "scheduledNext": "8000128_00",           //  evaNr
             "actualNext": "8000128_00",              //  evaNr
