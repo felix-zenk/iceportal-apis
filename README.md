@@ -106,8 +106,9 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
         33\. get_delay_reasons_last_station()\
         34\. get_delay_status()\
         35\. get_is_delayed()\
-	36\. get_station_position()\
-	37\. get_station_distance()
+	36\. get_station_position(station_name, evaNr)\
+	37\. get_station_distance(station_name, evaNr)\
+	38\. get_next_station_distance()\
 2. **Processing data**\
     1\. cut_timestamp(timestamp_int)\
     2\. convert_time_to_string(timedelta_obj)\
@@ -187,16 +188,16 @@ They can be used to provide the result of an API call to each function. Otherwis
 >
 >Calls: get_status
 
-#### 1.2.2 get_train_type(status_call=None)
+#### 1.2.2 get_train_type(status_call=None, trip_call=None)
 >Description: Gets the type of train
 >
 >Parameters: -
 >
->Optional parameters: status_call (dict)
+>Optional parameters: status_call (dict), trip_call (dict)
 >
 >Returns: String
 >
->Calls: get_status
+>Calls: get_status, get_trip
 
 #### 1.2.3 get_wagon_class(status_call=None)
 >Description: Gets the wagon class (can be inacurate for wagons next to another class)
@@ -568,10 +569,21 @@ They can be used to provide the result of an API call to each function. Otherwis
 >
 >Calls: get_trip
 
-#### 1.2.37 get_station_distance(station_name=None, evaNr=None, status_call=None, trip_call=None)
+#### 1.2.37 get_station_distance(station_name=None, evaNr=None, trip_call=None)
 >Description: Calculates the distance to a specific station and returns it in meters
 >
 >Parameters: (one needed)
+>
+>Optional parameters: trip_call (dict)
+>
+>Returns: int
+>
+>Calls: get_trip
+
+#### 1.2.38 get_next_station_distance(trip_call=None)
+>Description: Calculates the distance to the next station and returns it in meters
+>
+>Parameters: -
 >
 >Optional parameters: trip_call (dict)
 >
