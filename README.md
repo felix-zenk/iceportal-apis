@@ -59,7 +59,7 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
 
 #
 
-### <div id="documentation">Documentation</div>
+### Documentation
 > ~~This documentation can also be found on [![Documentation link](https://img.shields.io/badge/ReadTheDocs.io-blue)](https://iceportal-apis.readthedocs.io/en/latest/)~~
 >
 > ReadTheDocs status: [![Documentation Status](https://readthedocs.org/projects/iceportal-apis/badge/?version=latest)](https://iceportal-apis.readthedocs.io/en/latest/?badge=latest)
