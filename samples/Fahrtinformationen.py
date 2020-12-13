@@ -1,6 +1,5 @@
 # Import
-#import iceportal_apis as ipa
-import __init__ as ipa
+import iceportal_apis as ipa
 from datetime import datetime, timedelta
 from time import sleep
 
