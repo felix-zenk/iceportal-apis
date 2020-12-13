@@ -14,11 +14,11 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
 #
 
 ### Installation
-* Available on PyPI
+* You can directly download the module through the terminal from PyPI
     ```shell
     $ python -m pip install iceportal_apis
     ```
-> Or download the source files from: [PyPI (web)](https://pypi.org/project/iceportal-apis/#files), 
+> or download the source files from: [PyPI (web)](https://pypi.org/project/iceportal-apis/#files), 
 [GitHub](https://github.com/felix-zenk/iceportal-apis)
 
 #
@@ -28,7 +28,7 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
     ```shell
      $ python -m pip install --upgrade iceportal_apis
     ```
-> or see **`Automatic updates`**-section below
+> or see [**`Automatic updates`**](#automatic-updates)-section below
 >
 > The latest version is: 1.0.8 (12.12.2020)
 
@@ -55,7 +55,7 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
 #
 
 ### License
-> **This sofware is distributed under the MIT License, please see `LICENSE` for detailed information.**
+> **This sofware is distributed under the MIT License, please see [`LICENSE`](https://github.com/felix-zenk/iceportal-apis/blob/main/LICENSE) for detailed information.**
 
 #
 
@@ -64,62 +64,62 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
 >
 > ReadTheDocs status: [![Documentation Status](https://readthedocs.org/projects/iceportal-apis/badge/?version=latest)](https://iceportal-apis.readthedocs.io/en/latest/?badge=latest)
 
-1. **Getting data**
-    1. Getting raw data\
-        1\. get_status()\
-        2\. get_trip()\
-        3\. get_all()\
-        4\. request_json(url)
-    2. Getting processed data\
-        1\. get_speed()\
-        2\. get_train_type()\
-        3\. get_wagon_class()\
-        4\. get_latitude()\
-        5\. get_longitude()\
-        6\. get_position()\
-	7\. get_train_id()\
-	8\. get_trip_id()\
-        9\. get_station_eva_number(station_name)\
-        10\. get_next_station_eva_number()\
-        11\. get_last_station_eva_number()\
-	12\. get_final_station_eva_number()\
-        13\. get_station_eva_numbers()\
-        14\. get_station_name(evaNr)\
-        15\. get_next_station_name()\
-	16\. get_last_station_name()\
-	17\. get_final_station_name()\
-        18\. get_station_names()\
-        19\. get_arrival_time(station_name, evaNr)\
-	20\. get_next_arrival_time()\
-	21\. get_time_until_arrival(station_name, evaNr)\
-        22\. get_time_until_next_arrival()\
-	23\. get_departure_time(station_name, evaNr)\
-	24\. get_next_departure_time()\
-	25\. get_time_until_departure(station_name, evaNr)\
-        26\. get_time_until_next_departure()\
-        27\. get_track(station_name, evaNr)\
-        28\. get_next_track()\
-        29\. get_delay()\
-        30\. get_delay_reasons()\
-	31\. get_all_delay_reasons()\
-	32\. get_delay_reasons_for_station(station_name, evaNr)\
-        33\. get_delay_reasons_last_station()\
-        34\. get_delay_status()\
-        35\. get_is_delayed()\
-	36\. get_station_position(station_name, evaNr)\
-	37\. get_station_distance(station_name, evaNr)\
-	38\. get_next_station_distance()\
-2. **Processing data**\
-    1\. cut_timestamp(timestamp_int)\
-    2\. convert_time_to_string(timedelta_obj)\
-    3\. calc_distance((start_lat, start_lon), (end_lat, end_lon))
-3. **Exceptions**\
-    1\. NetworkException(Exception)\
-    2\. NotOnTrainException(Exception)\
-    3\. NotAvailableException(Exception)\
-    4\. NotInFutureException(Exception)\
-    5\. NoneDataException(Exception)\
-    6\. *WrongApiException(Exception)*
+1. [**Getting data**](#1-getting-data)\
+    1. [Getting raw data](#11-getting-raw-data)\
+        1\. [get_status()](#111-get_status)\
+        2\. [get_trip()](#112-get_trip)\
+        3\. [get_all()](#113-get_all)\
+        4\. [request_json(url)](#114-request_jsonurl)
+    2. [Getting processed data](#111-get_status)\
+        1\. [get_speed()](#121-get_speedstatus_callnone)\
+        2\. [get_train_type()](#122-get_train_typestatus_callnone-trip_callnone)\
+        3\. [get_wagon_class()](#123-get_wagon_classstatus_callnone)\
+        4\. [get_latitude()](#124-get_latitudestatus_callnone)\
+        5\. [get_longitude()](#125-get_longitudestatus_callnone)\
+        6\. [get_position()](#126-get_positionstatus_callnone)\
+	7\. [get_train_id()](#127-get_train_idstatus_callnone)\
+	8\. [get_trip_id()](#128-get_trip_idtrip_callnone)\
+        9\. [get_station_eva_number(station_name)](#129-get_station_eva_numbername-trip_callnone)\
+        10\. [get_next_station_eva_number()](#1210-get_next_station_eva_numbertrip_callnone)\
+        11\. [get_last_station_eva_number()](#1211-get_last_station_eva_numbertrip_callnone)\
+	12\. [get_final_station_eva_number()](#1212-get_final_station_eva_numbertrip_callnone)\
+        13\. [get_station_eva_numbers()](#1213-get_station_eva_numberstrip_callnone)\
+        14\. [get_station_name(evaNr)](#1214-get_station_nameevanr-trip_callnone)\
+        15\. [get_next_station_name()](#1215-get_next_station_nametrip_callnone)\
+	16\. [get_last_station_name()](#1216-get_last_station_nametrip_callnone)\
+	17\. [get_final_station_name()](#1217-get_final_station_nametrip_callnone)\
+        18\. [get_station_names()](#1218-get_station_namestrip_callnone)\
+        19\. [get_arrival_time(station_name, evaNr)](#1219-get_arrival_timenamenone-evanrnone-trip_callnone)\
+	20\. [get_next_arrival_time()](#1220-get_next_arrival_timetrip_callnone)\
+	21\. [get_time_until_arrival(station_name, evaNr)](#1221-get_time_until_arrivalnamenone-evanrnone-trip_callnone)\
+        22\. [get_time_until_next_arrival()](#1222-get_time_until_next_arrivaltrip_callnone)\
+	23\. [get_departure_time(station_name, evaNr)](#1223-get_departure_timenamenone-evanrnone-trip_callnone)\
+	24\. [get_next_departure_time()](#1224-get_next_departue_timetrip_callnone)\
+	25\. [get_time_until_departure(station_name, evaNr)](#1225-get_time_until_departurenamenone-evanrnone-trip_callnone)\
+        26\. [get_time_until_next_departure()](#1226-get_time_until_next_departuretrip_callnone)\
+        27\. [get_track(station_name, evaNr)](#1227-get_trackstation_namenone-evanrnone-trip_callnone)\
+        28\. [get_next_track()](#1228-get_next_tracktrip_callnone)\
+        29\. [get_delay()](#1229-get_delaytrip_callnone)\
+        30\. [get_delay_reasons()](#1230-get_delay_reasonstrip_callnone)\
+	31\. [get_all_delay_reasons()](#1231-get_delay_reasonstrip_callnone)\
+	32\. [get_delay_reasons_for_station(station_name, evaNr)](#1232-get_delay_reasons_for_stationtrip_callnone)\
+        33\. [get_delay_reasons_last_station()](#1233-get_delay_reasons_last_stationtrip_callnone)\
+        34\. [get_delay_status()](#1234-get_delay_statustrip_callnone)\
+        35\. [get_is_delayed()](#1235-get_is_delayedtrip_callnone)\
+	36\. [get_station_position(station_name, evaNr)](#1236-get_station_positionstation_namenone-evanrnone-trip_callnone)\
+	37\. [get_station_distance(station_name, evaNr)](#1237-get_station_distancestation_namenone-evanrnone-trip_callnone)\
+	38\. [get_next_station_distance()](#1238-get_next_station_distancetrip_callnone)\
+2. [**Processing data**](#2-processing-data)\
+    1\. [cut_timestamp(timestamp_int)](#21-cut_timestampseconds)\
+    2\. [convert_time_to_string(timedelta_obj)](#22-convert_time_to_stringtimedelta_obj-locale-no_secondsfalse)\
+    3\. [calc_distance((start_lat, start_lon), (end_lat, end_lon))](#23-calc_distanceposition_start-position_end)
+3. [**Exceptions**](#3-exceptions)\
+    1\. [NetworkException(Exception)](#1-networkexceptionexception)\
+    2\. [NotOnTrainException(Exception)](#2-notontrainexceptionexception)\
+    3\. [NotAvailableException(Exception)](#3-notavailableexceptionexception)\
+    4\. [NotInFutureException(Exception)](#4-notinfutureexceptionexception)\
+    5\. [NoneDataException(Exception)](#5-nonedataexceptionexception)\
+    6\. [*WrongApiException(Exception)*](#6-wrongapiexceptionexception)
 
 ### 1. Getting data
 
