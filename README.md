@@ -5,15 +5,20 @@
 [![GitHub](https://img.shields.io/badge/license-MIT-green)](LICENSE.txt)
 
 ### Description
+
 This module interacts with the onboard APIs of the Deutsche Bahn ICE trains.\
 It can do various things from reading the trains velocity to telling you the distance to and the delay at the next station.\
 (Explore all functions below at [**`Documentation`**](#documentation)\
-This is an inofficial project and not acknowledged nor supported by `Deutsche Bahn AG`.
+This is an inofficial project and neither acknowledged nor supported by `Deutsche Bahn AG`.
+
 > Note, that this module will only work while you are on a train and connected to its WiFi-Hotspot.
+
+For a demo see [`Fahrtinformationen.py`](https://github.com/felix-zenk/iceportal-apis/blob/main/samples/Fahrtinformationen.py) or the other files in [`samples`](https://github.com/felix-zenk/iceportal-apis/blob/main/samples/)
 
 #
 
 ### Installation
+
 * You can directly download the module through the terminal from PyPI
     ```shell
     $ python -m pip install iceportal_apis
@@ -24,6 +29,7 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
 #
 
 ### Updates
+
 * To update simply *--upgrade* the module through pip.
     ```shell
      $ python -m pip install --upgrade iceportal_apis
@@ -55,16 +61,18 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
 #
 
 ### License
+
 > **This sofware is distributed under the MIT License, please see [`LICENSE`](https://github.com/felix-zenk/iceportal-apis/blob/main/LICENSE) for detailed information.**
 
 #
 
 ### Documentation
+
 > ~~This documentation can also be found on [![Documentation link](https://img.shields.io/badge/ReadTheDocs.io-blue)](https://iceportal-apis.readthedocs.io/en/latest/)~~
 >
 > ReadTheDocs status: [![Documentation Status](https://readthedocs.org/projects/iceportal-apis/badge/?version=latest)](https://iceportal-apis.readthedocs.io/en/latest/?badge=latest)
 
-1. [**Getting data**](#1-getting-data)\
+1. [**Getting data**](#1-getting-data)
     1. [Getting raw data](#11-getting-raw-data)\
         1\. [get_status()](#111-get_status)\
         2\. [get_trip()](#112-get_trip)\
@@ -108,7 +116,7 @@ This is an inofficial project and not acknowledged nor supported by `Deutsche Ba
         35\. [get_is_delayed()](#1235-get_is_delayedtrip_callnone)\
 	36\. [get_station_position(station_name, evaNr)](#1236-get_station_positionstation_namenone-evanrnone-trip_callnone)\
 	37\. [get_station_distance(station_name, evaNr)](#1237-get_station_distancestation_namenone-evanrnone-trip_callnone)\
-	38\. [get_next_station_distance()](#1238-get_next_station_distancetrip_callnone)\
+	38\. [get_next_station_distance()](#1238-get_next_station_distancetrip_callnone)
 2. [**Processing data**](#2-processing-data)\
     1\. [cut_timestamp(timestamp_int)](#21-cut_timestampseconds)\
     2\. [convert_time_to_string(timedelta_obj)](#22-convert_time_to_stringtimedelta_obj-locale-no_secondsfalse)\
@@ -687,6 +695,7 @@ They can be used to provide the result of an API call to each function. Otherwis
 #
 
 ### Automatic updates
+
 >The `autoupdate` function is only available starting from version 1.0.7 and adds about 10 seconds of delay
 >To use auto updates just implement `iceportal_apis.autoupdate()` at some point in your code.
 >If an update is available changes will be applied at the next program start. 
@@ -695,6 +704,7 @@ They can be used to provide the result of an API call to each function. Otherwis
 #
 
 ### Example usage
+
 > This code is also available in the file [`example.py`](https://github.com/felix-zenk/iceportal-apis/blob/main/samples/example.py).
 ```python
 # Import iceportal_apis
@@ -770,6 +780,7 @@ if __name__ == "__main__":
 ### API documentation
 
 #### 1. Status API
+
 The Status API is available at [https://iceportal.de/api1/rs/status](https://iceportal.de/api1/rs/status)
 
 Sample response:
@@ -792,6 +803,7 @@ Sample response:
 ```
 
 #### 2. Trip API
+
 The Trip API is available at [https://iceportal.de/api1/rs/tripInfo/trip](https://iceportal.de/api1/rs/tripInfo/trip)
 
 Sample Response (**shortened**, only one element in '*stops*' list instead of all stops):
@@ -866,6 +878,7 @@ Sample Response (**shortened**, only one element in '*stops*' list instead of al
 ```
 
 #### 3. Other APIs
+
 These are other APIs I discovered but didn't investigate in:
 
 3.1. [https://iceportal.de/api1/rs/pois/map/{lat_s}/{lon_s}/{lat_e}/{lon_e}](https://iceportal.de/api1/rs/pois/map/0.000/0.000/1.000/1.000)
@@ -877,6 +890,7 @@ These are other APIs I discovered but didn't investigate in:
 #
 
 ### Development
+
 > If you would like to develop your own interface you can use sample data from [samples/sample_data_supplier.py](https://github.com/felix-zenk/iceportal-apis/blob/main/samples/sample_data_supplier.py)
 Just put the file in your working directory and import it into your project as you would with a normal module.
 ```python
@@ -906,4 +920,5 @@ print(ipa.get_speed())
 ```
 
 ### Further simulating
+
 > If you want to simulate a complete trip the [samples](https://github.com/felix-zenk/iceportal-apis/blob/main/samples) serve as a solid base.
