@@ -696,9 +696,12 @@ They can be used to provide the result of an API call to each function. Otherwis
 
 ### Automatic updates
 
->The `autoupdate` function is only available starting from version 1.0.7 and adds about 10 seconds of delay
+>The `autoupdate` function is only available starting from version 1.0.7 and adds about 10 seconds of delay.
+>
 >To use auto updates just implement `iceportal_apis.autoupdate()` at some point in your code.
->If an update is available changes will be applied at the next program start. 
+>
+>If an update is available changes will be applied at the next program start.
+>
 >If you want to use this function it is recommended to call `iceportal_apis.autoupdate()` at the end of your program.
 
 #
