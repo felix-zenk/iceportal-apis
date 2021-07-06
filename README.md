@@ -906,6 +906,11 @@ import iceportal_apis as ipa
 ```python
 ipa.get_status = lambda: get_sample_data_status()
 ipa.get_trip = lambda: get_sample_data_trip()
+
+# or
+
+ipa.get_status = get_sample_data_status
+ipa.get_trip = get_sample_data_trip
 ```
 > Update the recorded timestamps to the current time
 ```
