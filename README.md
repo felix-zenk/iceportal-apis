@@ -68,9 +68,11 @@ For a demo see [`Fahrtinformationen.py`](https://github.com/felix-zenk/iceportal
 
 ### Documentation
 
+<!---
 > ~~This documentation can also be found on [![Documentation link](https://img.shields.io/badge/ReadTheDocs.io-blue)](https://iceportal-apis.readthedocs.io/en/latest/)~~
 >
 > ReadTheDocs status: [![Documentation Status](https://readthedocs.org/projects/iceportal-apis/badge/?version=latest)](https://iceportal-apis.readthedocs.io/en/latest/?badge=latest)
+--->
 
 1. [**Getting data**](#1-getting-data)
     1. [Getting raw data](#11-getting-raw-data)\
