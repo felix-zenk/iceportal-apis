@@ -60,43 +60,49 @@ def _timestamp_to_datetime(timestamp: Union[str, int, float]) -> datetime:
 
 class Train:
     def __init__(self, auto_refresh: bool = False):
-        self.data = TestInterface()
-        self.data.set_auto_refresh(auto_refresh=auto_refresh)
+        self._raw_data = TestInterface()
+        self._raw_data.set_auto_refresh(auto_refresh=auto_refresh)
+
+    def __str__(self):
+        return self.get_train_type().name + " " + self.get_trip_id() + " -> " + self.get_final_station_name()
+
+    def __repr__(self):
+        return "<" + str(self) + ">"
 
     def refresh(self):
         """
         Refreshes all data
         """
-        self.data.refresh()
+        self._raw_data.refresh()
 
     def get_speed(self):
         """Gets the current speed of the train in kilometers/hour.
         """
-        return self.data.status['speed']
+        return self._raw_data.status['speed']
 
     def get_train_type(self):
         """Gets the train type.
         """
-        return TrainType.ICE if self.data.status['trainType'].upper() == "ICE" \
-            else (TrainType.IC if self.data.status['trainType'].upper() == "IC"
+        return TrainType.ICE if self._raw_data.status['trainType'].upper() == "ICE" \
+            else (TrainType.IC if self._raw_data.status['trainType'].upper() == "IC"
                   else TrainType.UNKNOWN)
 
     def get_wagon_class(self) -> WagonClass:
         """Gets the wagon class (can be inaccurate for wagons next to another class).
         """
-        return WagonClass.FIRST if self.data.status['wagonClass'].upper() == 'FIRST' \
-            else (WagonClass.SECOND if self.data.status['wagonClass'].upper() == 'SECOND'
+        return WagonClass.FIRST if self._raw_data.status['wagonClass'].upper() == 'FIRST' \
+            else (WagonClass.SECOND if self._raw_data.status['wagonClass'].upper() == 'SECOND'
                   else WagonClass.UNKNOWN)
 
     def get_latitude(self):
         """Gets the current latitude of the train's position in decimal format.
         """
-        return _ensure_not_none(self.data.status['latitude'])
+        return _ensure_not_none(self._raw_data.status['latitude'])
 
     def get_longitude(self):
         """Gets the current longitude of the train's position in decimal format.
         """
-        return _ensure_not_none(self.data.status['longitude'])
+        return _ensure_not_none(self._raw_data.status['longitude'])
 
     def get_position(self):
         """Gets the current position of the train in decimal format.
@@ -106,64 +112,64 @@ class Train:
     def get_train_id(self):
         """Gets the ID of the train
         """
-        return _ensure_not_none(self.data.status['tzn'])
+        return _ensure_not_none(self._raw_data.status['tzn'])
 
     def get_trip_id(self):
         """Gets the ID of the trip
         """
-        return _ensure_not_none(self.data.trip['trip']['vzn'])
+        return _ensure_not_none(self._raw_data.trip['trip']['vzn'])
 
     def get_station_eva_number(self, station_name):
         """Gets the evaNr of a specific station.
         """
-        return _ensure_not_none(self.data.name_2_eva_nr[station_name])
+        return _ensure_not_none(self._raw_data.name_2_eva_nr[station_name])
 
     def get_next_station_eva_number(self):
         """Gets the evaNr of the next stop.
         """
-        return _ensure_not_none(self.data.trip['trip']['stopInfo']['actualNext'])
+        return _ensure_not_none(self._raw_data.trip['trip']['stopInfo']['actualNext'])
 
     def get_last_station_eva_number(self):
         """Gets the evaNr of the last station.
         """
-        return _ensure_not_none(self.data.trip['trip']['stopInfo']['actualLast'])
+        return _ensure_not_none(self._raw_data.trip['trip']['stopInfo']['actualLast'])
 
     def get_final_station_eva_number(self):
         """Gets the evaNr of the destination of the train
         """
-        return _ensure_not_none(self.data.trip['trip']['stopInfo']['finalStationEvaNr'])
+        return _ensure_not_none(self._raw_data.trip['trip']['stopInfo']['finalStationEvaNr'])
 
     def get_all_station_eva_numbers(self):
         """Gets the evaNr of all stations for this trip.
         """
-        return list(_ensure_not_none(self.data.eva_nr_2_name.keys()))
+        return list(_ensure_not_none(self._raw_data.eva_nr_2_name.keys()))
 
     def get_station_name(self, eva_nr):
         """Gets the name of a specific station.
         """
-        return _ensure_not_none(self.data.eva_nr_2_name[eva_nr])
+        return _ensure_not_none(self._raw_data.eva_nr_2_name[eva_nr])
 
     def get_next_station_name(self):
         """Gets the name of the next stop.
         """
-        return _ensure_not_none(self.data.eva_nr_2_name[self.get_next_station_eva_number()])
+        return _ensure_not_none(self._raw_data.eva_nr_2_name[self.get_next_station_eva_number()])
 
     def get_last_station_name(self):
         """
         Gets the name of the last station
         """
-        return _ensure_not_none(self.data.eva_nr_2_name[self.get_last_station_eva_number()])
+        return _ensure_not_none(self._raw_data.eva_nr_2_name[self.get_last_station_eva_number()])
 
     def get_final_station_name(self):
         """Gets the destination of the train
         """
-        return _ensure_not_none(self.data.eva_nr_2_name[self.get_final_station_eva_number()])
+        return _ensure_not_none(self._raw_data.eva_nr_2_name[self.get_final_station_eva_number()])
 
     def get_all_station_names(self):
         """
         Gets the names of all stations for this trip.
         """
-        return list(self.data.eva_nr_2_name.values())
+        return list(self._raw_data.eva_nr_2_name.values())
 
     def get_arrival_time(self, station_name: str = None, eva_nr: str = None):
         """Gets the arrival time at a specific station.
@@ -171,11 +177,11 @@ class Train:
         if not (station_name or eva_nr):
             raise MissingArgumentError()
         elif station_name:
-            eva_nr = self.data.name_2_eva_nr[station_name]
+            eva_nr = self._raw_data.name_2_eva_nr[station_name]
         return _timestamp_to_datetime(
-            _ensure_not_none(self.data.stations[eva_nr]['timetable']['actualArrivalTime']
-                             if _data_available(self.data.stations[eva_nr]['timetable']['actualArrivalTime'])
-                             else self.data.stations[eva_nr]['timetable']['scheduledArrivalTime']))
+            _ensure_not_none(self._raw_data.stations[eva_nr]['timetable']['actualArrivalTime']
+                             if _data_available(self._raw_data.stations[eva_nr]['timetable']['actualArrivalTime'])
+                             else self._raw_data.stations[eva_nr]['timetable']['scheduledArrivalTime']))
 
     def get_next_arrival_time(self):
         """Gets the arrival time at the next station
@@ -201,11 +207,11 @@ class Train:
         if not (station_name or eva_nr):
             raise MissingArgumentError()
         elif station_name:
-            eva_nr = self.data.name_2_eva_nr[station_name]
+            eva_nr = self._raw_data.name_2_eva_nr[station_name]
         return _timestamp_to_datetime(
-            _ensure_not_none(self.data.stations[eva_nr]['timetable']['actualDepartureTime']
-                             if _data_available(self.data.stations[eva_nr]['timetable']['actualDepartureTime'])
-                             else self.data.stations[eva_nr]['timetable']['scheduledDepartureTime']
+            _ensure_not_none(self._raw_data.stations[eva_nr]['timetable']['actualDepartureTime']
+                             if _data_available(self._raw_data.stations[eva_nr]['timetable']['actualDepartureTime'])
+                             else self._raw_data.stations[eva_nr]['timetable']['scheduledDepartureTime']
                              ))
 
     def get_next_departure_time(self):
@@ -234,10 +240,10 @@ class Train:
         if not (station_name or eva_nr):
             raise MissingArgumentError()
         elif station_name:
-            eva_nr = self.data.name_2_eva_nr[station_name]
-        return _ensure_not_none(self.data.stations[eva_nr]['track']['actual']
-                                if _data_available(self.data.stations[eva_nr]['track']['actual'])
-                                else self.data.stations[eva_nr]['track']['scheduled'])
+            eva_nr = self._raw_data.name_2_eva_nr[station_name]
+        return _ensure_not_none(self._raw_data.stations[eva_nr]['track']['actual']
+                                if _data_available(self._raw_data.stations[eva_nr]['track']['actual'])
+                                else self._raw_data.stations[eva_nr]['track']['scheduled'])
 
     def get_next_track(self):
         """
@@ -252,8 +258,8 @@ class Train:
         if not (station_name or eva_nr):
             raise MissingArgumentError()
         elif station_name:
-            eva_nr = self.data.name_2_eva_nr[station_name]
-        delay = _ensure_not_none(self.data.stations[eva_nr]['timetable']['arrivalDelay'])
+            eva_nr = self._raw_data.name_2_eva_nr[station_name]
+        delay = _ensure_not_none(self._raw_data.stations[eva_nr]['timetable']['arrivalDelay'])
         return 0 if delay == "" else int(delay)
 
     def get_current_delay(self):
@@ -275,9 +281,9 @@ class Train:
         if not (station_name or eva_nr):
             raise MissingArgumentError()
         elif station_name:
-            eva_nr = self.data.name_2_eva_nr[station_name]
+            eva_nr = self._raw_data.name_2_eva_nr[station_name]
         return list([reason['text'] for reason
-                     in _ensure_not_none(self.data.stations[eva_nr]['station']['delayReasons'])])
+                     in _ensure_not_none(self._raw_data.stations[eva_nr]['station']['delayReasons'])])
 
     def get_current_delay_reasons(self):
         """
@@ -292,9 +298,9 @@ class Train:
         if not (station_name or eva_nr):
             raise MissingArgumentError()
         elif station_name:
-            eva_nr = self.data.name_2_eva_nr[station_name]
-        return _ensure_not_none(self.data.stations[eva_nr]['station']['geocoordinates']['latitude']), \
-            _ensure_not_none(self.data.stations[eva_nr]['station']['geocoordinates']['longitude'])
+            eva_nr = self._raw_data.name_2_eva_nr[station_name]
+        return _ensure_not_none(self._raw_data.stations[eva_nr]['station']['geocoordinates']['latitude']), \
+            _ensure_not_none(self._raw_data.stations[eva_nr]['station']['geocoordinates']['longitude'])
 
     def get_station_distance(self, station_name=None, eva_nr=None):
         """
@@ -303,10 +309,10 @@ class Train:
         if not (station_name or eva_nr):
             raise MissingArgumentError()
         elif station_name:
-            eva_nr = self.data.name_2_eva_nr[station_name]
-        return int(_ensure_not_none(self.data.stations[eva_nr]['info']['distanceFromStart'])) \
-            - int(_ensure_not_none(self.data.trip['trip']['actualPosition'])) \
-            - int(_ensure_not_none(self.data.trip['trip']['distanceFromLastStop']))
+            eva_nr = self._raw_data.name_2_eva_nr[station_name]
+        return int(_ensure_not_none(self._raw_data.stations[eva_nr]['info']['distanceFromStart'])) \
+            - int(_ensure_not_none(self._raw_data.trip['trip']['actualPosition'])) \
+            - int(_ensure_not_none(self._raw_data.trip['trip']['distanceFromLastStop']))
 
     def get_next_station_distance(self):
         """
@@ -317,14 +323,14 @@ class Train:
     def get_connections(self, eva_nr: str):
         """Returns the connecting trains from a specific station
         """
-        return _ensure_not_none(self.data.connections[eva_nr])
+        return _ensure_not_none(self._raw_data.connections[eva_nr])
 
     def get_all_connections(self):
         """
         Gets all connections for every available station
         (usually every station except for the first one)
         """
-        return _ensure_not_none(self.data.connections)
+        return _ensure_not_none(self._raw_data.connections)
 
     def get_connections_info(self, eva_nr):
         """Processes information on a given dict of connections Returns some useful details: {trainName, finalStation,
@@ -340,7 +346,7 @@ class Train:
             'track': (connection['track']['actual']
                       if not connection['track']['actual'] is None
                       else connection['timetable']['scheduledDepartureTime'])
-        } for connection in self.data.connections[eva_nr]['connections']])
+        } for connection in self._raw_data.connections[eva_nr]['connections']])
 
     def get_next_station_connections(self):
         """Gets the connecting trains for the next station
