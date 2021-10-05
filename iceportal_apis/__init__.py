@@ -6,7 +6,7 @@ Note that this module only works while connected to the on board network "WIFI@D
 from typing import Union, Any
 from datetime import datetime, timedelta
 
-from .mocking import TestInterface
+from .interfaces import (ApiInterface, TestInterface)
 from .types import (TrainType, WagonClass, InterfaceStatus, Internet)
 from .exceptions import (ApiException, NetworkException, NotInFutureException, NotAvailableException,
                          NotOnTrainException, NoneDataException, MissingArgumentError)
@@ -75,8 +75,8 @@ def _convert_to_internet_status(value: str) -> Internet:
 
 
 class Train:
-    def __init__(self, auto_refresh: bool = False):
-        self._raw_data = TestInterface()
+    def __init__(self, auto_refresh: bool = False, test_mode: bool = False):
+        self._raw_data = TestInterface if test_mode else ApiInterface()
         self._raw_data.set_auto_refresh(auto_refresh=auto_refresh)
 
     def __str__(self):

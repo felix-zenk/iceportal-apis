@@ -7,6 +7,7 @@ from typing import Tuple
 from requests import RequestException, get
 
 from .exceptions import (NetworkException, ApiException, NotOnTrainException)
+from .mocking import Simulation
 from .types import InterfaceStatus
 
 
@@ -107,3 +108,18 @@ class ApiInterface:
             self._auto_refresh_switch = False
             if self._auto_refresh_thread.is_alive():
                 self._auto_refresh_thread.join()
+
+
+class TestInterface(ApiInterface):
+    def __init__(self):
+        self.simulation = Simulation()
+        super(TestInterface, self).__init__()
+
+    def _get_status(self) -> dict:
+        return self.simulation.get_status()
+
+    def _get_trip(self) -> dict:
+        return self.simulation.get_trip()
+
+    def _get_connections(self, eva_nr: str) -> dict:
+        return self.simulation.get_connections(eva_nr)

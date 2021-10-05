@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 from threading import Thread
 from time import sleep
 
-from ..interfaces import ApiInterface
 from .data import (STATIC_STATUS, STATIC_TRIP, STATIC_CONNECTIONS)
 
 
@@ -66,18 +65,3 @@ class DynamicSimulation(Simulation):
                 remaining_time = self._interval - delta
                 remaining_milliseconds = remaining_time.microseconds / 1000.0 + 1000 * remaining_time.seconds
                 sleep(0.1 if remaining_milliseconds > 100 else remaining_milliseconds / 1000.0)
-
-
-class TestInterface(ApiInterface):
-    def __init__(self):
-        self.simulation = Simulation()
-        super(TestInterface, self).__init__()
-
-    def _get_status(self) -> dict:
-        return self.simulation.get_status()
-
-    def _get_trip(self) -> dict:
-        return self.simulation.get_trip()
-
-    def _get_connections(self, eva_nr: str) -> dict:
-        return self.simulation.get_connections(eva_nr)
