@@ -4,10 +4,10 @@ Note that this module only works on trains from the Deutsche Bahn
 Note that this module only works while connected to the on board network "WIFI@DB" or "WIFIonICE"
 """
 from typing import Union, Any
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from .mocking import TestInterface
-from .types import (TrainType, WagonClass, InterfaceStatus)
+from .types import (TrainType, WagonClass, InterfaceStatus, Internet)
 from .exceptions import (ApiException, NetworkException, NotInFutureException, NotAvailableException,
                          NotOnTrainException, NoneDataException, MissingArgumentError)
 
@@ -58,6 +58,22 @@ def _timestamp_to_datetime(timestamp: Union[str, int, float]) -> datetime:
     return datetime.fromtimestamp(float(timestamp) / 1000.0)
 
 
+def _convert_to_internet_status(value: str) -> Internet:
+    """
+    Converts param into an Internet-Status enum
+    :param value: The value to convert
+    :type value: str
+    :return: The enum value
+    :rtype: Internet
+    """
+    value = value.upper()
+    return Internet.HIGH if value == "HIGH" else (
+        Internet.WEAK if value == "WEAK" else (
+            Internet.UNSTABLE if value == "UNSTABLE" else Internet.UNKNOWN
+        )
+    )
+
+
 class Train:
     def __init__(self, auto_refresh: bool = False):
         self._raw_data = TestInterface()
@@ -93,6 +109,15 @@ class Train:
         return WagonClass.FIRST if self._raw_data.status['wagonClass'].upper() == 'FIRST' \
             else (WagonClass.SECOND if self._raw_data.status['wagonClass'].upper() == 'SECOND'
                   else WagonClass.UNKNOWN)
+
+    def get_internet_status(self):
+        return _convert_to_internet_status(_ensure_not_none(self._raw_data.status['connectivity']['currentState']))
+
+    def get_next_internet_status(self):
+        return _convert_to_internet_status(_ensure_not_none(self._raw_data.status['connectivity']['nextState']))
+
+    def get_time_until_internet_change(self):
+        return timedelta(seconds=int(_ensure_not_none(self._raw_data.status['connectivity']['remainingTimeSeconds'])))
 
     def get_latitude(self):
         """Gets the current latitude of the train's position in decimal format.

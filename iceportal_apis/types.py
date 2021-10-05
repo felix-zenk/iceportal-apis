@@ -21,3 +21,12 @@ class TrainType(Enum):
     UNKNOWN = None
     IC = "IC"
     ICE = "ICE"
+
+
+@unique
+class Internet(Enum):
+    UNKNOWN = None
+    UNSTABLE = 0
+    WEAK = 1
+    HIGH = 2
+
