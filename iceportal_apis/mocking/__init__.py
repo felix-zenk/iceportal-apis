@@ -5,7 +5,7 @@ from time import sleep
 from .data import (STATIC_STATUS, STATIC_TRIP, STATIC_CONNECTIONS)
 
 
-class Simulation:
+class _Simulation:
     def __init__(self):
         self.simulation_thread = Thread(target=None, daemon=True)
         self._running = False
@@ -46,7 +46,7 @@ class Simulation:
             raise NotImplementedError("This is the base class for simulations. Please use a derived class!")
 
 
-class StaticSimulation(Simulation):
+class StaticSimulation(_Simulation):
     def __init__(self):
         """
         Static simulation of the api
@@ -60,14 +60,13 @@ class StaticSimulation(Simulation):
         pass
 
 
-class DynamicSimulation(Simulation):
+class DynamicSimulation(_Simulation):
     def __init__(self):
         """
         Simulates the behaviour of the onboard api dynamically
         """
         self.data_server = data.DynamicDataServer()
         super(DynamicSimulation, self).__init__()
-        # raise NotImplementedError("The dynamic simulation is not yet implemented!")
 
     def get_connections(self, eva_nr):
         return None
