@@ -17,11 +17,6 @@ __author__ = 'Felix Zenk'
 __email__ = 'felix.zenk@web.de'
 __version__ = '1.1.0'
 ######################################
-URL_STATUS = "https://iceportal.de/api1/rs/status"
-URL_TRIP = "https://iceportal.de/api1/rs/tripInfo/trip"
-URL_CONNECTIONS = "https://iceportal.de/api1/rs/tripInfo/connection/{}"
-URL_POIS = "https://iceportal.de/api1/rs/pois/map/{}/{}/{}/{}"
-######################################
 
 
 def _data_available(param: str) -> bool:
