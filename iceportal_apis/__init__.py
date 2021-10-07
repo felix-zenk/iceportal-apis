@@ -7,6 +7,7 @@ from typing import Union, Any
 from datetime import datetime, timedelta
 
 from .interfaces import (ApiInterface, TestInterface)
+from .mocking import (StaticSimulation, DynamicSimulation)
 from .types import (TrainType, WagonClass, InterfaceStatus, Internet)
 from .exceptions import (ApiException, NetworkException, NotInFutureException, NotAvailableException,
                          NotOnTrainException, NoneDataException, MissingArgumentError)
@@ -75,15 +76,25 @@ def _convert_to_internet_status(value: str) -> Internet:
 
 
 class Train:
-    def __init__(self, auto_refresh: bool = False, test_mode: bool = False):
-        self._raw_data = TestInterface if test_mode else ApiInterface()
+    def __init__(self, auto_refresh: bool = False, test_mode: bool = False, dynamic_simulation: bool = False):
+        self._raw_data = TestInterface(DynamicSimulation if dynamic_simulation else StaticSimulation) \
+            if test_mode else ApiInterface()
         self._raw_data.set_auto_refresh(auto_refresh=auto_refresh)
 
+    def __del__(self):
+        # Optional, but a clean exit
+        try:
+            self._raw_data.set_auto_refresh(False)
+            if isinstance(self._raw_data, TestInterface):
+                self._raw_data.simulation.stop()
+        except AttributeError:
+            pass
+
     def __str__(self):
-        return self.get_train_type().name + " " + self.get_trip_id() + " -> " + self.get_final_station_name()
+        return "<"+self.get_train_type().name + " " + self.get_trip_id() + " -> " + self.get_final_station_name()+">"
 
     def __repr__(self):
-        return "<" + str(self) + ">"
+        return str(self)
 
     def refresh(self):
         """
