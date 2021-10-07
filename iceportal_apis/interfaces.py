@@ -152,10 +152,12 @@ class TestInterface(ApiInterface):
     def refresh(self) -> None:
         self.status = self._get_status()
         self.trip = self._get_trip()
-        for eva_nr, name in [(stop["station"]["evaNr"], stop["station"]["name"])
-                             for stop in self.trip["trip"]["stops"]]:
+        for stop in self.trip["trip"]["stops"]:
+            eva_nr = stop["station"]["evaNr"]
+            name = stop["station"]["name"]
             self.name_2_eva_nr[name] = eva_nr
             self.eva_nr_2_name[eva_nr] = name
+            self.stations[eva_nr] = stop
             self.connections[eva_nr] = self._get_connections(eva_nr)
 
     def set_auto_refresh(self, auto_refresh: bool, interval: int = None):

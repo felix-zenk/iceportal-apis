@@ -313,8 +313,8 @@ class Train:
             raise MissingArgumentError()
         elif station_name:
             eva_nr = self._raw_data.name_2_eva_nr[station_name]
-        return list([reason['text'] for reason
-                     in _ensure_not_none(self._raw_data.stations[eva_nr]['station']['delayReasons'])])
+        return list([reason['text'] for reason in self._raw_data.stations[eva_nr]['delayReasons']]) \
+            if self._raw_data.stations[eva_nr]['delayReasons'] else []
 
     def get_current_delay_reasons(self):
         """
