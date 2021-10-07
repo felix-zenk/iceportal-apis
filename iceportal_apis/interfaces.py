@@ -139,7 +139,6 @@ class TestInterface(ApiInterface):
             self.simulation.stop()
         except AttributeError:
             pass
-        super(TestInterface, self).__del__()
 
     def _get_status(self) -> dict:
         return self.simulation.get_status()
