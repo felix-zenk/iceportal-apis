@@ -1,4 +1,7 @@
-######################################
+import json
+from os.path import join, dirname
+from typing import Tuple, Dict, List
+
 STATIC_STATUS = {
     "connection": True,
     "servicelevel": "AVAILABLE_SERVICE",
@@ -20,6 +23,7 @@ STATIC_STATUS = {
         "remainingTimeSeconds": 58
     }
 }
+
 
 STATIC_TRIP = {
     "trip": {
@@ -63,6 +67,7 @@ STATIC_TRIP = {
     },
     "active": None
 }
+
 
 STATIC_CONNECTIONS = {
     "connections": [
@@ -180,4 +185,32 @@ STATIC_CONNECTIONS = {
     ],
     "requestedEvaNr": "8000055_00"
 }
-######################################
+
+
+def load_from_record(filename):
+    with open(filename, "r", encoding="utf-8") as file:
+        return json.loads(file.read())
+
+
+def save_record(filename, content):
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write(json.dumps(content, indent=4))
+
+
+class DynamicDataServer:
+    def __init__(self):
+        self._data_root = join(dirname(__file__), "sample_data")
+        self._data_status = load_from_record(join(self._data_root, "status.json"))
+        self._data_trip = load_from_record(join(self._data_root, "trip.json"))
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+        self.eva_nrs: List[str] = []
+        self.stations: Dict[str, Dict] = {}
+        self.velocity: int = 0
+        self.position: int = 0
+        self.geo_position: Tuple[float, float] = (0.0, 0.0)
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+        self.init_data()
+
+    def init_data(self):
+        pass
+
