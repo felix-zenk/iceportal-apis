@@ -1,4 +1,4 @@
-import json
+from json import loads, dumps
 from os.path import join, dirname
 from typing import Tuple, Dict, List
 
@@ -189,21 +189,25 @@ STATIC_CONNECTIONS = {
 }
 
 
+DATA_ROOT = join(dirname(__file__), "sample_data")
+SAMPLE_FILE_STATUS = join(DATA_ROOT, "status.json")
+SAMPLE_FILE_TRIP = join(DATA_ROOT, "trip.json")
+
+
 def load_from_record(filename):
     with open(filename, "r", encoding="utf-8") as file:
-        return json.loads(file.read())
+        return loads(file.read())
 
 
 def save_record(filename, content):
     with open(filename, "w", encoding="utf-8") as f:
-        f.write(json.dumps(content, indent=4))
+        f.write(dumps(content, indent=4))
 
 
 class DynamicDataServer:
     def __init__(self):
-        self._data_root = join(dirname(__file__), "sample_data")
-        self._data_status = load_from_record(join(self._data_root, "status.json"))
-        self._data_trip = load_from_record(join(self._data_root, "trip.json"))
+        self._data_status = load_from_record(SAMPLE_FILE_STATUS)
+        self._data_trip = load_from_record(SAMPLE_FILE_TRIP)
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         self.eva_nrs: List[str] = []
         self.stations: Dict[str, Dict] = {}
