@@ -54,7 +54,7 @@ class StaticSimulation(_Simulation):
         super(StaticSimulation, self).__init__()
 
     def get_connections(self, eva_nr):
-        return None
+        return self._connections["8000055_00"]
 
     def _simulate(self):
         pass
@@ -69,7 +69,7 @@ class DynamicSimulation(_Simulation):
         super(DynamicSimulation, self).__init__()
 
     def get_connections(self, eva_nr):
-        return None
+        return self._connections["8000055_00"]
 
     def _refresh_values(self):
         return
