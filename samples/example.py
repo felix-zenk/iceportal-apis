@@ -1,28 +1,33 @@
 # Import iceportal_apis
 import iceportal_apis as ipa
 
-# Information related to the next station
+
 def example_next_station():
-    """Function for getting the next train station.
-       and information on the current status (delay, track, ...)
     """
-    print(f'Next stop: "{ipa.get_next_station_name()}" at \
-{ipa.get_next_arrival_time()} on platform {ipa.get_next_track()}.')
-    print(f'Arrival in {ipa.convert_time_to_string(ipa.get_time_until_next_arrival(), locale="en")}')
-    if ipa.get_delay_status():
-        print(f'This train is {ipa.get_delay()} min delayed')
-        if ipa.get_delay_reasons() != None:
-            print(f'Reason: "{ipa.get_delay_reasons_last_station()}"')
-    
-# Information related to the trains speed
+    # Information related to the next station
+    Function for getting the next train station and information on the current status (delay, track, ...)
+    """
+    print(f'Next stop: "{train.get_next_station()}" at {train.get_next_arrival_time()}'
+          f' on platform {train.get_next_track()}.')
+    print(f'Arrival in {train.get_time_until_next_arrival()}')
+    if train.is_delayed():
+        print(f'This train is {train.get_current_delay()} min delayed')
+        if train.get_current_delay_reasons():
+            print(f'Reason: "{train.get_current_delay_reasons()}"')
+    print(train.get_all_stations())
+
+
 def example_speed():
-    """Function for getting the train type and the current speed of the train.
     """
-    print(f'This {ipa.get_train_type()} is currently going {ipa.get_speed()}km/h')
+    # Information related to the trains speed
+    Function for getting the train type and the current speed of the train.
+    """
+    print(f'This {train.get_train_type().name} is currently going {train.get_speed()}km/h')
 
     
 # Entry
 if __name__ == "__main__":
+    train = ipa.Train(test_mode=False)
     example_next_station()
     example_speed()
-    input() # keep the window opened
+    input()  # keep the window opened
