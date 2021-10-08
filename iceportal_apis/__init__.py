@@ -251,9 +251,9 @@ class Train:
         """
         return self.get_departure_time(station) - datetime.now()
 
-    def get_track(self, station: Station) -> str:
+    def get_platform(self, station: Station) -> str:
         """
-        Gets the trains track number for a specific station
+        Gets the trains arrival platform for a specific station
         """
         return _ensure_not_none(self._raw_data.stations[station.eva_number]['track']['actual']
                                 if _data_available(
