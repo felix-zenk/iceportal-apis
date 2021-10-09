@@ -4,6 +4,8 @@ from iceportal_apis import __version__, __author__, __email__
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+include_files = {'iceportal_apis': ['*.json', 'mocking/sample_data/*.json']}
+
 setuptools.setup(
     name="iceportal_apis",
     version=__version__,
@@ -19,6 +21,8 @@ setuptools.setup(
         "Source": "https://github.com/felix-zenk/iceportal-apis",
     },
     packages=setuptools.find_packages(),
+    include_package_data=True,
+    license='MIT',
     classifiers=[
         "Programming Language :: Python :: 3.9",
         "License :: OSI Approved :: MIT License",
