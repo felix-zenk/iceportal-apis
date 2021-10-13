@@ -28,7 +28,7 @@ This is an unofficial project and not supported by [`Deutsche Bahn AG`](https://
 [GitHub](https://github.com/felix-zenk/iceportal-apis)
 > and install via setup.py
 >
-> The latest version is: v1.1.0 (09.10.2021)
+> The latest version is: v1.1.1 (13.10.2021)
 
 #
 
