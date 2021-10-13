@@ -7,10 +7,13 @@ import typing
 import aiohttp
 import requests
 
-from .constants import (URL_STATUS, URL_TRIP, URL_CONNECTIONS, URL_POIS)
+from .constants import (URL_STATUS, URL_TRIP, URL_CONNECTIONS, URL_POIS, URL_BAP)
 from .exceptions import (NetworkException, ApiException, NotOnTrainException)
 from .mocking import StaticSimulation, DynamicSimulation
 from .types import InterfaceStatus
+
+
+headers = {"User-Agent": "python:iceportal_apis"}  # Header to inform the api that this request was sent via this module
 
 
 class ApiInterface:
@@ -20,12 +23,14 @@ class ApiInterface:
         self.trip: dict = {}
         self.connections: dict = {}
         self.stations: dict = {}
+        self.bap: dict = {}
         self.pois: typing.List = []
         self.eva_nr_2_name: dict = {}
         self.name_2_eva_nr: dict = {}
         self._auto_refresh_thread: threading.Thread = threading.Thread(target=None, daemon=True)
         self._auto_refresh_switch: bool = False
         self._AUTO_REFRESH_INTERVAL: int = 1
+        self._refresh_lock = threading.Lock()
         self._event_loop = asyncio.get_event_loop()
         self.refresh()
 
@@ -34,7 +39,7 @@ class ApiInterface:
         """
         self.interface_status = InterfaceStatus.FETCHING
         async with aiohttp.ClientSession(loop=self._event_loop) as session:
-            async with session.get(url) as response:
+            async with session.get(url, headers=headers) as response:
                 try:
                     return await response.json()
                 except (json.JSONDecodeError, aiohttp.ContentTypeError) as e:
@@ -62,7 +67,15 @@ class ApiInterface:
         """
         self.connections[eva_nr] = await self._request_json(URL_CONNECTIONS.format(eva_nr))
 
-    async def _get_pois(self, start_pos: typing.Tuple[float, float], end_pos: typing.Tuple[float, float]):
+    async def _get_bap(self) -> None:
+        """
+        Refreshes data for bap service
+        """
+        self.bap = await self._request_json(URL_BAP) \
+            if self.status["bapInstalled"] \
+            else {"bapServiceStatus": "INACTIVE", "status": False}
+
+    def _get_pois(self, start_pos: typing.Tuple[float, float], end_pos: typing.Tuple[float, float]) -> dict:
         """
         Refreshes points of interest in the rectangular area spanned by start_pos and end_pos
         :param start_pos: The first corner position
@@ -70,21 +83,28 @@ class ApiInterface:
         :param end_pos: The second corner position
         :type end_pos: Tuple
         """
-        self.pois.append({
+        return {
             'start_pos': start_pos,
             'end_pos': end_pos,
-            'data': await self._request_json(URL_POIS.format(start_pos[0], start_pos[1], end_pos[0], end_pos[1]))
-        })
+            'data': self._request_json(URL_POIS.format(start_pos[0], start_pos[1], end_pos[0], end_pos[1]))
+        }
 
     def refresh(self) -> None:
         """
         Refreshes all data
         """
         async def refresh_async():
-            tasks = [self._get_status(), self._get_trip()]
-            tasks.extend([self._get_connections(url) for url in list(self.eva_nr_2_name.keys())])
-            await asyncio.gather(*tasks)
+            if self.trip == {}:  # First request -> No data for _get_connections yet
+                await asyncio.gather(self._get_status(), self._get_trip())
+                await asyncio.gather(*[self._get_connections(url) for url in list(self.eva_nr_2_name.keys())],
+                                     self._get_bap())
+            else:
+                await asyncio.gather(self._get_status(), self._get_trip(), self._get_bap(),
+                                     *[self._get_connections(url) for url in list(self.eva_nr_2_name.keys())]
+                                     )
 
+        # Make thread safe
+        self._refresh_lock.acquire()
         # Run async
         # TODO Testing on a train needed
         try:
@@ -95,10 +115,12 @@ class ApiInterface:
                                      for stop in self.trip["trip"]["stops"]]:
                     self.name_2_eva_nr[name] = eva_nr
                     self.eva_nr_2_name[eva_nr] = name
-            except KeyError:
-                pass
+            except KeyError as e:
+                print("Key error: ", e)
         except (NotOnTrainException, NetworkException):
             raise
+        finally:
+            self._refresh_lock.release()
 
     def _auto_refresh(self) -> None:
         while self._auto_refresh_switch:
@@ -134,7 +156,7 @@ class SynchronousApiInterface(ApiInterface):
 
     def _request_json(self, url: str) -> dict:
         try:
-            response = requests.get(url)
+            response = requests.get(url, headers=headers)
             try:
                 return response.json()
             except json.JSONDecodeError:
@@ -150,13 +172,6 @@ class SynchronousApiInterface(ApiInterface):
 
     def _get_connections(self, eva_nr: str):
         self.connections[eva_nr] = self._request_json(URL_CONNECTIONS.format(eva_nr))
-
-    def _get_pois(self, start_pos: typing.Tuple[float, float], end_pos: typing.Tuple[float, float]):
-        self.pois.append({
-            'start_pos': start_pos,
-            'end_pos': end_pos,
-            'data': self._request_json(URL_POIS.format(start_pos[0], start_pos[1], end_pos[0], end_pos[1]))
-        })
 
     def refresh(self) -> None:
         self._get_status()
