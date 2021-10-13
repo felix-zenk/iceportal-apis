@@ -25,8 +25,10 @@ class TrainType(Enum):
 
 @unique
 class Internet(Enum):
-    UNKNOWN = None
-    UNSTABLE = 0
-    WEAK = 1
-    HIGH = 2
+    UNKNOWN = None  # NO_INFO
+    NO_INTERNET = 0
+    UNSTABLE = 1
+    WEAK = 2
+    MIDDLE = 3
+    HIGH = 4
 
