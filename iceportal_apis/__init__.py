@@ -15,7 +15,7 @@ from .exceptions import (ApiException, NetworkException, NotInFutureException, N
 ######################################
 __author__ = 'Felix Zenk'
 __email__ = 'felix.zenk@web.de'
-__version__ = '1.1.0'
+__version__ = '1.1.1'
 ######################################
 
 
@@ -37,7 +37,7 @@ def _ensure_not_none(param: Any) -> Any:
     :rtype: Any
     :raises: NotAvailableException
     """
-    if param is not None:
+    if _data_available(param):
         return param
     else:
         raise NotAvailableException()
@@ -62,12 +62,7 @@ def _convert_to_internet_status(value: str) -> Internet:
     :return: The enum value
     :rtype: Internet
     """
-    value = value.upper()
-    return Internet.HIGH if value == "HIGH" else (
-        Internet.WEAK if value == "WEAK" else (
-            Internet.UNSTABLE if value == "UNSTABLE" else Internet.UNKNOWN
-        )
-    )
+    return Internet.__members__[value.upper()] if value.upper() in Internet.__members__.keys() else Internet.UNKNOWN
 
 
 class Station:
@@ -132,17 +127,17 @@ class Train:
         """
         Gets the train type.
         """
-        return TrainType.ICE if self._raw_data.status['trainType'].upper() == "ICE" \
-            else (TrainType.IC if self._raw_data.status['trainType'].upper() == "IC"
-                  else TrainType.UNKNOWN)
+        return TrainType.__members__[self._raw_data.status['trainType'].upper()] \
+            if self._raw_data.status['trainType'].upper() in TrainType.__members__.keys() \
+            else TrainType.UNKNOWN
 
     def get_wagon_class(self) -> WagonClass:
         """
         Gets the wagon class (can be inaccurate for wagons next to another class).
         """
-        return WagonClass.FIRST if self._raw_data.status['wagonClass'].upper() == 'FIRST' \
-            else (WagonClass.SECOND if self._raw_data.status['wagonClass'].upper() == 'SECOND'
-                  else WagonClass.UNKNOWN)
+        return WagonClass.__members__[self._raw_data.status['wagonClass'].upper()] \
+            if self._raw_data.status['wagonClass'].upper() in WagonClass.__members__.keys() \
+            else WagonClass.UNKNOWN
 
     def get_internet_status(self) -> Internet:
         """
@@ -161,6 +156,13 @@ class Train:
         Gets the time until the network status changes
         """
         return timedelta(seconds=int(_ensure_not_none(self._raw_data.status['connectivity']['remainingTimeSeconds'])))
+
+    def has_bap_service(self) -> bool:
+        """
+        Whether this train offers ordering food from the passengers seat
+        :return: Whether this train provides bap service or not
+        """
+        return _ensure_not_none(self._raw_data.bap["bapServiceStatus"]).upper() == "ACTIVE"
 
     def get_latitude(self) -> float:
         """
