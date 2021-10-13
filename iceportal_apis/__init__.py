@@ -6,7 +6,7 @@ Note that this module only works while connected to the on board network "WIFI@D
 from typing import Union, Any, List, Tuple, Dict
 from datetime import datetime, timedelta
 
-from .interfaces import (ApiInterface, TestInterface)
+from .interfaces import (ApiInterface, TestInterface, MediaInterface)
 from .mocking import (StaticSimulation, DynamicSimulation)
 from .types import (TrainType, WagonClass, InterfaceStatus, Internet)
 from .exceptions import (ApiException, NetworkException, NotInFutureException, NotAvailableException,
@@ -15,7 +15,7 @@ from .exceptions import (ApiException, NetworkException, NotInFutureException, N
 ######################################
 __author__ = 'Felix Zenk'
 __email__ = 'felix.zenk@web.de'
-__version__ = '1.1.1'
+__version__ = '1.1.2a1'
 ######################################
 
 
@@ -82,6 +82,7 @@ class Train:
         self._raw_data = TestInterface(DynamicSimulation if dynamic_simulation else StaticSimulation) \
             if test_mode else ApiInterface()
         self._raw_data.set_auto_refresh(auto_refresh=auto_refresh)
+        self.media = None if test_mode else MediaInterface()
 
     def __del__(self) -> None:
         # Optional, but a clean exit
