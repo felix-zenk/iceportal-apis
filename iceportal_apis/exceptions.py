@@ -45,7 +45,7 @@ class NotAvailableException(ApiException):
     """Exception raised when specific content is not available through the api
     """
 
-    def __init__(self, message='This data is not available on the server'):
+    def __init__(self, message='This data is currently not available on the server'):
         super().__init__(message)
 
 
