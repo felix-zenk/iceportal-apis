@@ -1,21 +1,22 @@
 {
-    "connection": true,
-    "servicelevel": "AVAILABLE_SERVICE",
-    "internet": "HIGH",
-    "gpsStatus": "VALID",
-    "tileY": 303,
-    "tileX": 216,
-    "series": "011",
-    "latitude": 52.766562,
-    "longitude": 10.251847,
-    "serverTime": 1603913237508,
-    "speed": 169,
-    "trainType": "ICE",
-    "tzn": "Tz1191",
-    "wagonClass": "SECOND",
-    "connectivity": {
-        "currentState": "HIGH",
-        "nextState": "WEAK",
-        "remainingTimeSeconds": 58
-    }
+  "connection": true,
+  "serviceLevel": "AVAILABLE_SERVICE",
+  "gpsStatus": "VALID",
+  "internet": "HIGH",
+  "latitude": 50.920622,
+  "longitude": 10.640545,
+  "tileY": 102,
+  "tileX": 74,
+  "series": "411",
+  "serverTime": 1634107110427,
+  "speed": 133,
+  "trainType": "ICE",
+  "tzn": "Tz1130",
+  "wagonClass": "FIRST",
+  "connectivity": {
+    "currentState": "WEAK",
+    "nextState": "HIGH",
+    "remainingTimeSeconds": 625
+  },
+  "bapInstalled": true
 }
