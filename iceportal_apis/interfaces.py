@@ -1,7 +1,6 @@
 import asyncio
 import datetime
 import json
-import os
 import threading
 import time
 import typing
@@ -27,10 +26,10 @@ class Requestable:
     def get_json(self, url, **kwargs):
         try:
             response = self.get(url, **kwargs)
-            try:
-                return response.json()
-            except json.JSONDecodeError:
-                raise NotOnTrainException()
+            print(response.text)
+            return response.json()
+        except json.JSONDecodeError:
+            raise NotOnTrainException()
         except requests.exceptions.RequestException:
             raise NetworkException()
 
@@ -244,6 +243,9 @@ class Media(Requestable):
         self.url = url
         self.parts = self._get_parts()
 
+    def __str__(self):
+        return self.title
+
     def _get_parts(self):
         return list(
             [Part(file["title"]+"."+file["path"].split(".")[-1], file["path"])
@@ -257,8 +259,10 @@ class PageIndex(Requestable):
         self.data = self.get_json(url)
 
     def list(self) -> typing.List[Media]:
+        # [print("{}{}".format(BASE_URL, media["navigation"]["href"])) for media in self.data["teaserGroups"][0]["items"]]
         return list(
-            [Media(media["title"], media["navigation"]["href"]) for media in self.data["teaserGroups"][0]["items"]]
+            [Media(media["title"], "{}{}".format(BASE_URL, media["navigation"]["href"]))
+             for media in self.data["teaserGroups"][0]["items"]]
         )
 
 
