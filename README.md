@@ -83,7 +83,7 @@ The Status API is available at [https://iceportal.de/api1/rs/status](https://ice
 
 A sample response can be found at:
 ```python
-iceportal_api.mocking.data.STATIC_STATUS
+iceportal_apis.mocking.data.STATIC_STATUS
 ```
 
 #### 2. Trip API
@@ -91,7 +91,7 @@ The Trip API is available at [https://iceportal.de/api1/rs/tripInfo/trip](https:
 
 A sample response can be found at:
 ```python
-iceportal_api.mocking.data.STATIC_TRIP
+iceportal_apis.mocking.data.STATIC_TRIP
 ```
 
 #### 3. Connections API
@@ -99,7 +99,7 @@ The Connecting trains API can be found at [https://iceportal.de/api1/rs/tripInfo
 
 A sample response can be found at:
 ```python
-iceportal_api.mocking.data.STATIC_CONNECTIONS
+iceportal_apis.mocking.data.STATIC_CONNECTIONS
 ```
 
 
