@@ -25,7 +25,8 @@ class TrainType(Enum):
 
 @unique
 class Internet(Enum):
-    UNKNOWN = None  # NO_INFO
+    UNKNOWN = None  # Client can't tell
+    NO_INFO = -1  # Train can't tell
     NO_INTERNET = 0
     UNSTABLE = 1
     WEAK = 2

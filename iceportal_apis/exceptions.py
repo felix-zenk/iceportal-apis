@@ -3,9 +3,11 @@
 Exceptions for iceportal_apis
 """
 
+from onboardapis.exceptions import OnboardException
+
 
 ################################################
-class ApiException(Exception):
+class ApiException(OnboardException):
     def __init__(self, message):
         """
         Base exception for this module
