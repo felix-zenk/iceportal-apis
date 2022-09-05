@@ -72,7 +72,7 @@ class Station(OAStation):
 class Train(Vehicle):
     def __init__(self, auto_refresh: bool = False, test_mode: bool = False, dynamic_simulation: bool = False) -> None:
         if test_mode or dynamic_simulation:
-            raise NotImplementedError("Test mode and dynamic simulation are not supported any more.")
+            raise NotImplementedError("Test mode and dynamic simulation are not supported anymore.")
         super().__init__()
         self.__oa = ICEPortal()
 
@@ -130,19 +130,19 @@ class Train(Vehicle):
         """
         Gets the current latitude of the train's position in decimal format.
         """
-        return self.__oa.position[0]
+        return self.__oa.position.latitude
 
     def get_longitude(self) -> float:
         """
         Gets the current longitude of the train's position in decimal format.
         """
-        return self.__oa.position[1]
+        return self.__oa.position.longitude
 
     def get_position(self) -> Tuple[float, float]:
         """
         Gets the current position of the train in decimal format.
         """
-        return self.__oa.position
+        return self.__oa.position.latitude, self.__oa.position.longitude
 
     def get_train_id(self) -> str:
         """
@@ -255,7 +255,8 @@ class Train(Vehicle):
         """
         Gets the position of a specific station
         """
-        return self.__oa.stations.get(station.eva_number).position
+        pos = self.__oa.stations.get(station.eva_number).position
+        return pos.latitude, pos.longitude
 
     def get_station_distance(self, station: Station) -> float:
         """
