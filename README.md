@@ -9,7 +9,7 @@ No longer actively developed in favor of the [onboardAPIs](https://github.com/fe
 
 
 [![PyPI version](https://badge.fury.io/py/iceportal_apis.svg)](https://pypi.org/project/iceportal-apis)
-[![PyPI-Versions](https://img.shields.io/pypi/pyversions/iceportal)](https://pypi.org/project/iceportal)
+[![PyPI-Versions](https://img.shields.io/pypi/pyversions/iceportal-apis)](https://pypi.org/project/iceportal-apis)
 [![GitHub](https://img.shields.io/badge/license-MIT-green)](https://github.com/felix-zenk/iceportal-apis/blob/main/LICENSE)
 
 ### Description
