@@ -17,17 +17,24 @@ setuptools.setup(
     url="https://github.com/felix-zenk/iceportal-apis",
     project_urls={
         "Bug Reports": "https://github.com/felix-zenk/iceportal-apis/issues/new?labels=bug&template=bug_report.md&title=%5BBUG%5D%3A+",
-        # "Documentation": "https://iceportal-apis.readthedocs.io/en/latest/",
         "Source": "https://github.com/felix-zenk/iceportal-apis",
     },
     packages=setuptools.find_packages(),
     include_package_data=True,
     license='MIT',
     classifiers=[
-        "Programming Language :: Python :: 3.9",
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+        'Topic :: Utilities'
     ],
     python_requires='>=3.7.2',
 )
