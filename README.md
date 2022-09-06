@@ -104,32 +104,3 @@ These are other APIs I discovered but didn't investigate in:
 4.3. [https://iceportal.de/api1/rs/configs/cities](https://iceportal.de/api1/rs/configs/cities)
 
 #
-
-### Development
-
-> ~~If you would like to develop your own interface you can use sample data from `iceportal_apis.mocking` and derive a class from `iceportal_apis.interfaces.ApiInterface` or `iceportal_apis.interfaces.TestInterface`~~
-
-```python
-from iceportal_apis.mocking.data import load_from_record, SAMPLE_FILE_STATUS
-
-sample_data_status = load_from_record(SAMPLE_FILE_STATUS)
-```
-
-> ~~While on a train you can also save api data for later usage~~
-```python
-from requests import get
-
-from iceportal_apis.mocking.data import save_record
-from iceportal_apis.constants import URL_STATUS
-
-api_call = get(URL_STATUS).json()
-save_record("filename.json", api_call)
-```
-
-> ~~When not connected to a trains hotspot use test mode~~
-
-```python
-import iceportal_apis as ipa
-
-train = ipa.Train(test_mode=True)
-```
