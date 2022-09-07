@@ -51,6 +51,8 @@ def _convert_to_internet_status(value: str) -> Internet:
     :return: The enum value
     :rtype: Internet
     """
+    if value is None:
+        return Internet.UNKNOWN
     return Internet.__members__[value.upper()] if value.upper() in Internet.__members__.keys() else Internet.UNKNOWN
 
 
@@ -75,6 +77,7 @@ class Train(Vehicle):
             raise NotImplementedError("Test mode and dynamic simulation are not supported anymore.")
         super().__init__()
         self.__oa = ICEPortal()
+        self.__oa.init()
 
     def __str__(self) -> str:
         return "<"+self.get_train_type().name+" "+self.get_trip_id()+" -> "+self.get_final_station().name+">"
@@ -105,7 +108,7 @@ class Train(Vehicle):
         """
         Gets the current internet status / (speed)
         """
-        return _convert_to_internet_status(_ensure_not_none(self.__oa.internet_connection()[0]))
+        return _convert_to_internet_status(self.__oa.internet_connection()[0])
 
     def get_next_internet_status(self) -> Internet:
         """
