@@ -2,7 +2,7 @@
 
 ---
 
-No longer actively developed in favor of the [onboardAPIs](https://github.com/felix-zenk/onboardapis) project which includes APIs for different providers.
+No longer actively developed in favor of the [onboardAPIs](https://github.com/felix-zenk/onboardapis) ([PyPI](https://pypi.org/project/onboardapis)) project which includes APIs for different providers.
 ---
 
 ---
