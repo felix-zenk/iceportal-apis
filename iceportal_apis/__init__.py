@@ -24,7 +24,7 @@ warnings.warn(
 ######################################
 __author__ = 'Felix Zenk'
 __email__ = 'felix.zenk@web.de'
-__version__ = '2.0.1'
+__version__ = '2.0.2'
 ######################################
 
 
