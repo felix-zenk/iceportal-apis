@@ -16,8 +16,8 @@ No longer actively developed in favor of the [onboardAPIs](https://github.com/fe
 This module interacts with the onboard APIs of the Deutsche Bahn ICE trains.\
 It can do various things from reading the trains' velocity to telling you the distance to and the delay at the next station.\
 This is an unofficial project and not supported by [`Deutsche Bahn AG`](https://www.deutschebahn.com/de/konzern).
-> Note, that this module will only work correctly while you are on a train and connected to its WiFi-Hotspot.\
-> However a basic simulation for offline research is also included in this module
+
+> Note, that this module will only work correctly while you are on a train and connected to its WiFi-Hotspot.
 
 #
 
@@ -25,10 +25,6 @@ This is an unofficial project and not supported by [`Deutsche Bahn AG`](https://
 * Available on PyPI
     ```shell
     $ python -m pip install iceportal_apis
-    ```
-  for the newest (unstable) version install the module from GitHub
-    ```shell
-    $ python -m pip install git+https://github.com/felix-zenk/iceportal-apis.git
     ```
 
 #
@@ -45,19 +41,13 @@ train = ipa.Train()
 
 while True:
     # Request new data from the api
-    train.refresh()
+    # train.refresh()  # obsolete, because onboardapis handles refreshing
     
-    # Process data
+    # Process data  (uses onboardapis under the hood)
     print(train.get_train_type().name)
     next_station = train.get_next_station()
 
     . . .
-```
-
-> ~~For GUI applications you can also specify automatic api polling~~
-
-```python
-train = ipa.Train(auto_refresh=True)
 ```
 
 #
@@ -74,7 +64,7 @@ The Status API is available at [https://iceportal.de/api1/rs/status](https://ice
 
 ~~A sample response can be found at:~~
 ```python
-iceportal_api.mocking.data.STATIC_STATUS
+# deprecated
 ```
 
 #### 2. Trip API
@@ -82,7 +72,7 @@ The Trip API is available at [https://iceportal.de/api1/rs/tripInfo/trip](https:
 
 ~~A sample response can be found at:~~
 ```python
-iceportal_api.mocking.data.STATIC_TRIP
+# deprecated
 ```
 
 #### 3. Connections API
@@ -90,7 +80,7 @@ The Connecting trains API can be found at [https://iceportal.de/api1/rs/tripInfo
 
 ~~A sample response can be found at:~~
 ```python
-iceportal_api.mocking.data.STATIC_CONNECTIONS
+# deprecated
 ```
 
 
