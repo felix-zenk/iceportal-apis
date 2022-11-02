@@ -1,33 +1,44 @@
-# Import iceportal_apis
-import iceportal_apis as ipa
+import datetime
+# import iceportal_apis as ipa
+
+from time import sleep
+
+from onboardapis.trains.germany.db import ICEPortal
+from onboardapis.utils.conversions import ms_to_kmh
 
 
-def example_next_station():
-    """
-    # Information related to the next station
-    Function for getting the next train station and information on the current status (delay, track, ...)
-    """
-    print(f'Next stop: "{train.get_next_station()}" at {train.get_next_arrival_time()}'
-          f' on platform {train.get_next_track()}.')
-    print(f'Arrival in {train.get_time_until_next_arrival()}')
-    if train.is_delayed():
-        print(f'This train is {train.get_current_delay()} min delayed')
-        if train.get_current_delay_reasons():
-            print(f'Reason: "{train.get_current_delay_reasons()}"')
-    print(train.get_all_stations())
+class InformationDisplayTrain(ICEPortal):
+    def print_next_station(self):
+        """
+        # Information related to the next station
+        Function for getting the next train station and information on the current status (delay, track, ...)
+        """
+        print(f"Next stop: '{self.current_station.name}' at {self.current_station.arrival.actual.strftime('%H:%M')}"
+              f" on platform {self.current_station.platform.actual}.")
+        print(f'Arrival in {self.current_station.arrival.actual - datetime.datetime.now()}')
+        if self.delay:
+            print(f'This train is {self.delay/60:.1f} min delayed')
+            if self.delay_reasons() is not None:
+                print(f"Reasons: '{'. '.join(self.delay_reasons())}'")
+        print(f"Stations on this trip: {', '.join(station.name for station in self.stations.values())}")
 
-
-def example_speed():
-    """
-    # Information related to the trains speed
-    Function for getting the train type and the current speed of the train.
-    """
-    print(f'This {train.get_train_type().name} is currently going {train.get_speed()}km/h')
+    def print_speed(self):
+        """
+        # Information related to the trains speed
+        Function for getting the train type and the current speed of the train.
+        """
+        print(f'This {self.type} {self.number}{f" {self.name}" if self.name is not None else ""} '
+              f'is currently going {ms_to_kmh(self.speed)} km/h')
 
     
+def main():
+    with InformationDisplayTrain() as information_train:
+        while information_train.connected:
+            information_train.print_next_station()
+            information_train.print_speed()
+            sleep(3)
+
+
 # Entry
 if __name__ == "__main__":
-    train = ipa.Train(test_mode=False)
-    example_next_station()
-    example_speed()
-    input()  # keep the window opened
+    main()
