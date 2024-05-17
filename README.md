@@ -7,7 +7,6 @@ No longer actively developed in favor of the [onboardAPIs](https://github.com/fe
 
 ---
 
-
 [![PyPI version](https://badge.fury.io/py/iceportal_apis.svg)](https://pypi.org/project/iceportal-apis)
 [![PyPI-Versions](https://img.shields.io/pypi/pyversions/iceportal-apis)](https://pypi.org/project/iceportal-apis)
 [![GitHub](https://img.shields.io/badge/license-MIT-green)](https://github.com/felix-zenk/iceportal-apis/blob/main/LICENSE)
@@ -19,20 +18,13 @@ This is an unofficial project and not supported by [`Deutsche Bahn AG`](https://
 
 > Note, that this module will only work correctly while you are on a train and connected to its WiFi-Hotspot.
 
-#
-
 ### Installation
 * Available on PyPI
     ```shell
     $ python -m pip install iceportal_apis
     ```
 
-#
-
 ### Usage
-> ~~Example code is available in the file [`example.py`](https://github.com/felix-zenk/iceportal-apis/blob/main/samples/example.py) and other files in [`samples`](https://github.com/felix-zenk/iceportal-apis/blob/main/samples).~~
->
-> ~~The basic usage consists of requesting new data from the api, then processing it with the modules functions.~~
 
 ```python
 import iceportal_apis as ipa
@@ -50,39 +42,19 @@ while True:
     . . .
 ```
 
-#
-
 ### License
 > **This software is distributed under the MIT License, please see [`LICENSE`](https://github.com/felix-zenk/iceportal-apis/blob/main/LICENSE) for detailed information.**
 
-#
-
-### <div id="api">API documentation</div>
+### API documentation
 
 #### 1. Status API
 The Status API is available at [https://iceportal.de/api1/rs/status](https://iceportal.de/api1/rs/status)
 
-~~A sample response can be found at:~~
-```python
-# deprecated
-```
-
 #### 2. Trip API
 The Trip API is available at [https://iceportal.de/api1/rs/tripInfo/trip](https://iceportal.de/api1/rs/tripInfo/trip)
 
-~~A sample response can be found at:~~
-```python
-# deprecated
-```
-
 #### 3. Connections API
 The Connecting trains API can be found at [https://iceportal.de/api1/rs/tripInfo/connection/{eva_number}](https://iceportal.de/api1/rs/tripInfo/connection/8000000_00)
-
-~~A sample response can be found at:~~
-```python
-# deprecated
-```
-
 
 #### 4. Other APIs
 These are other APIs I discovered but didn't investigate in:
@@ -93,4 +65,6 @@ These are other APIs I discovered but didn't investigate in:
 
 4.3. [https://iceportal.de/api1/rs/configs/cities](https://iceportal.de/api1/rs/configs/cities)
 
-#
+4.4. [https://iceportal.de/bap/api/availabilities](https://iceportal.de/bap/api/availabilities)
+
+4.5. [https://iceportal.de/bap/api/bap-service-status](https://iceportal.de/bap/api/bap-service-status)

@@ -1,1 +1,1 @@
-onboardapis>=1.2.3
+onboardapis>=2.0.0,<3
